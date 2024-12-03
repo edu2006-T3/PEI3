@@ -47,5 +47,32 @@ def calcular_area_sierpinski(longitud_lado, iteraciones):
     factor_reduccion = (3 / 4)        # Factor de conservación de área por iteración
     
     area_final = area_inicial * (factor_reduccion ** iteraciones)   # Área total después de las iteraciones
+ #==========================================================================================================================
+ #COPO DE NIEVE DE KOCH
+
+#Lógica recursiva
+ def generar_puntos_koch(A, B, iteraciones): 
+    def koch_recursivo(p1, p2, nivel): 
+        if nivel == 0:
+            return [p1, p2]
+        else:
+            delta = (p2 - p1) / 3  #Cada elemento se divide en 3 partes iguales
+            p3 = p1 + delta
+            p5 = p2 - delta 
+
+            angle = np.pi / 3  # Se usa una matriz de rotación de 60 grados para situar el siguiente triángulo equilátero
+            rotation_matrix = np.array([[np.cos(angle), -np.sin(angle)], [np.sin(angle), np.cos(angle)]])
+            p4 = p3 + np.dot(rotation_matrix, delta) #Se sustituye la parte cental por un triángulo equilátero
+
+            return (
+                koch_recursivo(p1, p3, nivel - 1) +
+                koch_recursivo(p3, p4, nivel - 1)[1:] +
+                koch_recursivo(p4, p5, nivel - 1)[1:] +
+                koch_recursivo(p5, p2, nivel - 1)[1:]
+            )
+
+    return koch_recursivo(A, B, iteraciones)
+
     
     return area_final
+
