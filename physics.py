@@ -76,3 +76,45 @@ def calcular_area_sierpinski(longitud_lado, iteraciones):
     
     return area_final
 
+#CONJUNTO DE MANDELBROT
+
+from numpy import linspace, zeros, abs, sum
+
+#======================================================================================
+
+# Función para generar el conjunto de Mandelbrot
+def generar_conjunto_mandelbrot(plano, resolucion, max_iteraciones):
+  
+    x_min, x_max, y_min, y_max = plano
+    ancho, alto = resolucion
+
+    mandelbrot_matrix = zeros((alto, ancho), dtype=int)
+
+    # Creamos las grillas para las coordenadas reales e imaginarias
+    x = linspace(x_min, x_max, ancho)
+    y = linspace(y_min, y_max, alto)
+
+    for i, imag in enumerate(y):
+        for j, real in enumerate(x):
+            c = complex(real, imag)
+            z = 0 + 0j
+            iteraciones = 0
+
+            # Iteramos para determinar si el punto escapa
+            while abs(z) <= 2 and iteraciones < max_iteraciones:
+                z = z**2 + c
+                iteraciones += 1
+
+            # Guardamos el número de iteraciones en la matriz
+            mandelbrot_matrix[i, j] = iteraciones
+
+    return mandelbrot_matrix
+
+#======================================================================================
+
+# Función para contar los puntos dentro del conjunto de Mandelbrot
+def contar_puntos_dentro(mandelbrot_matrix, max_iteraciones):
+
+    puntos_dentro = sum(mandelbrot_matrix == max_iteraciones)
+    return puntos_dentro
+
