@@ -1,6 +1,6 @@
 # physics.py 
 
-import numpy as np
+from numpy import sqrt, array, pi, dot, sin, cos
 import matplotlib.pyplot as plt
 
 #======================================================================================
@@ -8,10 +8,10 @@ import matplotlib.pyplot as plt
 # Coordenadas iniciales del triángulo principal
 
 longitud_lado = 1
-altura = np.sqrt(3) / 2 * longitud_lado  # Altura y longitud de lado del triángulo equilátero
-A = np.array([0, 0])
-C = np.array([longitud_lado / 2, altura])
-B = np.array([longitud_lado, 0])
+altura = sqrt(3) / 2 * longitud_lado  # Altura y longitud de lado del triángulo equilátero
+A = array([0, 0])
+C = array([longitud_lado / 2, altura])
+B = array([longitud_lado, 0])
 
 #======================================================================================
 
@@ -42,7 +42,7 @@ def generar_puntos_sierpinski(A, B, C, iteraciones):
 
 def calcular_area_sierpinski(longitud_lado, iteraciones):
 
-    area_inicial = (np.sqrt(3) / 4) * longitud_lado**2              # Área inicial del triángulo equilátero
+    area_inicial = (sqrt(3) / 4) * longitud_lado**2              # Área inicial del triángulo equilátero
     
     factor_reduccion = (3 / 4)        # Factor de conservación de área por iteración
     
@@ -60,9 +60,9 @@ def calcular_area_sierpinski(longitud_lado, iteraciones):
             p3 = p1 + delta
             p5 = p2 - delta 
 
-            angle = np.pi / 3  # Se usa una matriz de rotación de 60 grados para situar el siguiente triángulo equilátero
-            rotation_matrix = np.array([[np.cos(angle), -np.sin(angle)], [np.sin(angle), np.cos(angle)]])
-            p4 = p3 + np.dot(rotation_matrix, delta) #Se sustituye la parte cental por un triángulo equilátero
+            angle = pi / 3  # Se usa una matriz de rotación de 60 grados para situar el siguiente triángulo equilátero
+            rotation_matrix = array([[np.cos(angle), -sin(angle)], [sin(angle), cos(angle)]])
+            p4 = p3 + dot(rotation_matrix, delta) #Se sustituye la parte cental por un triángulo equilátero
 
             return (
                 koch_recursivo(p1, p3, nivel - 1) +
