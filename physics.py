@@ -76,6 +76,9 @@ def calcular_area_sierpinski(longitud_lado, iteraciones):
     
     return area_final
 
+#=====================================================================================
+#=====================================================================================
+
 #CONJUNTO DE MANDELBROT
 
 from numpy import linspace, zeros, abs, sum
