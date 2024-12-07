@@ -23,7 +23,7 @@ if __name__ == "__main__":
 #CONJUNTO DE MANDELBROT
 
 from physics import generar_conjunto_mandelbrot, contar_puntos_dentro
-from gui import crear_gui
+from gui import crear_gui_mandelbrot
 
 if __name__ == "__main__":
     # Parámetros de entrada (definidos aquí)
@@ -38,6 +38,6 @@ if __name__ == "__main__":
     puntos_dentro = contar_puntos_dentro(mandelbrot_matrix, max_iteraciones)
     print(f"Puntos dentro del conjunto: {puntos_dentro}")
 
-    crear_gui(generar_conjunto_mandelbrot, contar_puntos_dentro)
+    crear_gui_mandelbrot(generar_conjunto_mandelbrot, contar_puntos_dentro)
 
 
