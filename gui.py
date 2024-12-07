@@ -160,7 +160,7 @@ def crear_gui_mandelbrot(generar_conjunto_func,contar_puntos_dentro):
     # Variables locales
     x_min, x_max, y_min, y_max = -2.0, 1.0, -1.5, 1.5
     resolucion = (800, 800)
-    max_iteraciones = 1  # Cambié el valor inicial a 1
+    max_iteraciones = 0  # El valor inicial es 0
     color_mandelbrot = 'inferno'  # Color por defecto
 
     def actualizar_mandelbrot(figura, canvas, label_area):
