@@ -153,13 +153,14 @@ def crear_gui(generar_puntos_func, calcular_area_func):
 
 
 
-
+#===============================================================================================================
+#===============================================================================================================
 # Función para crear la GUI de Mandelbrot
-def crear_gui_mandelbrot(generar_conjunto_func):
+def crear_gui_mandelbrot(generar_conjunto_func,contar_puntos_dentro):
     # Variables locales
     x_min, x_max, y_min, y_max = -2.0, 1.0, -1.5, 1.5
     resolucion = (800, 800)
-    max_iteraciones = 0
+    max_iteraciones = 1  # Cambié el valor inicial a 1
     color_mandelbrot = 'inferno'  # Color por defecto
 
     def actualizar_mandelbrot(figura, canvas, label_area):
@@ -167,7 +168,7 @@ def crear_gui_mandelbrot(generar_conjunto_func):
         mandelbrot_matrix = generar_conjunto_func((x_min, x_max, y_min, y_max), resolucion, max_iteraciones)
 
         # Calcular el área (número de puntos dentro del conjunto de Mandelbrot)
-        puntos_dentro = np.sum(mandelbrot_matrix == max_iteraciones)
+        puntos_dentro = contar_puntos_dentro(mandelbrot_matrix, max_iteraciones)
         label_area.config(text=f"Puntos dentro: {puntos_dentro}")
 
         # Limpiar el gráfico anterior
