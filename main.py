@@ -40,6 +40,15 @@ if __name__ == "__main__":
     crear_gui(generar_puntos_koch, calcular_perimetro_koch)
 
     # Instrucción para ejecutar: python main.py
+
+#VERSIÓN 2
+
+# main.py
+
+from gui import create_gui_Koch
+from physics import generate_koch_snowflake, calculate_area_koch, calculate_perimeter_koch
+if __name__ == "__main__":
+    create_gui_Koch()
 #==========================================================================================
 #CONJUNTO DE MANDELBROT
 
