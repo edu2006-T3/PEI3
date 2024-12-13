@@ -4,15 +4,6 @@ from numpy import sqrt, array, pi, dot, sin, cos
 import matplotlib.pyplot as plt
 
 #======================================================================================
-
-# Coordenadas iniciales del triángulo principal
-
-longitud_lado = 1
-altura = sqrt(3) / 2 * longitud_lado  # Altura y longitud de lado del triángulo equilátero
-A = array([0, 0])
-C = array([longitud_lado / 2, altura])
-B = array([longitud_lado, 0])
-
 #======================================================================================
 
 # Función para la generación de los vértices
