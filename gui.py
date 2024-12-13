@@ -4,19 +4,21 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
 import numpy as np
 
+# # ======================================================================================================================================================================
+# # ======================================================================================================================================================================
+
 # Función para crear la GUI
-def crear_gui(generar_puntos_func, calcular_area_func):
-    # Variables locales
-    iteraciones = 0  # La iteración inicial será 0
-    longitud_lado = 1.0
-    color_triangulo = 'blue'  # Color por defecto
+def gui_triangulo_sierpinski(generar_puntos_func, calcular_area_func, iteraciones, longitud_lado, color_triangulo, A, B, C):
+    """
+    Función para crear la GUI, donde las variables 'iteraciones', 'longitud_lado', 'color_triangulo', 'A', 'B', 'C' son argumentos.
+    """
 
     def actualizar_triangulo(figura, canvas, label_area):
-        # Generar puntos del triángulo de Sierpinski
-        altura = (np.sqrt(3) / 2) * longitud_lado
-        A = np.array([0, 0])
-        C = np.array([longitud_lado / 2, altura])
-        B = np.array([longitud_lado, 0])
+        """
+        Actualiza el triángulo en el gráfico y muestra el área actual.
+        """
+        
+        # Llamamos a la función generadora de puntos de Sierpinski
         puntos = generar_puntos_func(A, B, C, iteraciones)
 
         # Calcular el área
@@ -38,6 +40,9 @@ def crear_gui(generar_puntos_func, calcular_area_func):
         canvas.draw()
 
     def actualizar_gui(label_iteraciones, label_longitud_lado, figura, canvas, label_area):
+        """
+        Actualiza la interfaz gráfica con la información de las iteraciones y la longitud del lado.
+        """
         label_iteraciones.config(text=f"Iteraciones: {iteraciones}")
         label_longitud_lado.config(text=f"Longitud Lado: {longitud_lado:.2f}")
         actualizar_triangulo(figura, canvas, label_area)
@@ -59,7 +64,7 @@ def crear_gui(generar_puntos_func, calcular_area_func):
             longitud_lado = float(entry_longitud_lado.get())
             if longitud_lado <= 0:
                 raise ValueError
-            actualizar_gui(label_longitud_lado, label_longitud_lado, figura, canvas, label_area)
+            actualizar_gui(label_iteraciones, label_longitud_lado, figura, canvas, label_area)
         except ValueError:
             messagebox.showerror("Valor Inválido", "La longitud del lado debe ser un número mayor que 0.")
             entry_longitud_lado.delete(0, 'end')
@@ -68,11 +73,12 @@ def crear_gui(generar_puntos_func, calcular_area_func):
     # Función para cambiar el color usando la barra deslizante
     def cambiar_color(valor):
         nonlocal color_triangulo
-        # Obtener los valores RGB del slider
-        r = int(valor)
-        g = int(color_slider_verde.get())
-        b = int(color_slider_azul.get())
-        color_triangulo = f"#{r:02x}{g:02x}{b:02x}"  # Crear color hexadecimal
+        # Obtener el valor de la barra deslizante para rojo (R)
+        rojo = int(valor)
+        # El valor de azul (B) es complementario al rojo
+        azul = 255 - rojo
+        verde = 0  # No se cambia el verde, se mantiene en 0
+        color_triangulo = f"#{rojo:02x}{verde:02x}{azul:02x}"  # Crear el color en formato hexadecimal
         actualizar_gui(label_iteraciones, label_longitud_lado, figura, canvas, label_area)
 
     # Crear la ventana principal
@@ -121,33 +127,20 @@ def crear_gui(generar_puntos_func, calcular_area_func):
     canvas_widget = canvas.get_tk_widget()
     canvas_widget.pack()
 
-    # Barra deslizante para cambiar el color del triángulo
+    # Barra deslizante para cambiar el color del triángulo (de azul a rojo)
     frame_color = tk.Frame(ventana)
     frame_color.pack(pady=20)
 
-    label_color = tk.Label(frame_color, text="Color del Triángulo", font=("Arial", 14))
+    label_color = tk.Label(frame_color, text="Color Rojo-Azul", font=("Arial", 14))
     label_color.grid(row=0, column=0)
 
-    # Barra deslizante para el color rojo
+    # Barra deslizante para el color rojo (que también controla el azul)
     color_slider_rojo = tk.Scale(frame_color, from_=0, to=255, orient='horizontal', label="Rojo", command=cambiar_color, length=350)
-    color_slider_rojo.set(128)  # Valor inicial
+    color_slider_rojo.set(0)  # Valor inicial (azul)
     color_slider_rojo.grid(row=1, column=0, columnspan=3, pady=10)
-
-    # Barra deslizante para el color verde
-    color_slider_verde = tk.Scale(frame_color, from_=0, to=255, orient='horizontal', label="Verde", command=cambiar_color, length=350)
-    color_slider_verde.set(128)  # Valor inicial
-    color_slider_verde.grid(row=2, column=0, columnspan=3, pady=10)
-
-    # Barra deslizante para el color azul
-    color_slider_azul = tk.Scale(frame_color, from_=0, to=255, orient='horizontal', label="Azul", command=cambiar_color, length=350)
-    color_slider_azul.set(255)  # Valor inicial
-    color_slider_azul.grid(row=3, column=0, columnspan=3, pady=10)
 
     # Actualizar la GUI por primera vez
     actualizar_gui(label_iteraciones, label_longitud_lado, figura, canvas, label_area)
-
-    # Ejecutar la ventana
-    ventana.mainloop()
 
 ======================================================================================================================================================================
 ======================================================================================================================================================================
@@ -377,3 +370,53 @@ def crear_gui_mandelbrot(generar_conjunto_func,contar_puntos_dentro):
 
     # Ejecutar la ventana
     ventana.mainloop()
+
+
+
+# # ======================================================================================================================================================================
+# # ======================================================================================================================================================================
+
+# Función para abrir la ventana de Sierpinski
+def abrir_sierpinski(generar_puntos_sierpinski, calcular_area_sierpinski, iteraciones, longitud_lado, color_triangulo, A, B, C):
+    # Llamar a la función crear_gui 
+    gui_triangulo_sierpinski(generar_puntos_sierpinski, calcular_area_sierpinski, iteraciones, longitud_lado, color_triangulo, A, B, C)
+
+# Función para abrir una ventana de información
+def abrir_info():
+    ventana_info = tk.Toplevel()
+    ventana_info.title("Información")
+    label_info = tk.Label(ventana_info, text="Esta es una ventana de información.", font=("Arial", 12))
+    label_info.pack(pady=20)
+    boton_cerrar = tk.Button(ventana_info, text="Cerrar", command=ventana_info.destroy, font=("Arial", 12))
+    boton_cerrar.pack(pady=10)
+
+# Función para abrir una ventana de configuración
+def abrir_configuracion():
+    ventana_configuracion = tk.Toplevel()
+    ventana_configuracion.title("Configuración")
+    label_config = tk.Label(ventana_configuracion, text="Aquí puedes configurar los parámetros.", font=("Arial", 12))
+    label_config.pack(pady=20)
+    boton_cerrar = tk.Button(ventana_configuracion, text="Cerrar", command=ventana_configuracion.destroy, font=("Arial", 12))
+    boton_cerrar.pack(pady=10)
+
+# Función que crea la ventana principal con tres botones
+def pantalla_principal(generar_puntos_sierpinski, calcular_area_sierpinski, iteraciones, longitud_lado, color_triangulo, A, B, C):
+    ventana_principal = tk.Tk()
+    ventana_principal.title("Pantalla Principal")
+
+    # Etiqueta de bienvenida
+    label_bienvenida = tk.Label(ventana_principal, text="Bienvenido, selecciona una opción:", font=("Arial", 14))
+    label_bienvenida.pack(pady=20)
+
+    # Crear los tres botones
+    boton_sierpinski = tk.Button(ventana_principal, text="Abrir Sierpinski", command=lambda: abrir_sierpinski(generar_puntos_sierpinski, calcular_area_sierpinski, iteraciones, longitud_lado, color_triangulo, A, B, C), font=("Arial", 14), width=20)
+    boton_sierpinski.pack(pady=10)
+
+    boton_info = tk.Button(ventana_principal, text="Abrir Información", command=abrir_info, font=("Arial", 14), width=20)
+    boton_info.pack(pady=10)
+
+    boton_configuracion = tk.Button(ventana_principal, text="Abrir Configuración", command=abrir_configuracion, font=("Arial", 14), width=20)
+    boton_configuracion.pack(pady=10)
+
+    # Ejecutar la ventana principal
+    ventana_principal.mainloop()
