@@ -47,18 +47,12 @@ from physics import generar_conjunto_mandelbrot, contar_puntos_dentro
 from gui import crear_gui_mandelbrot
 
 if __name__ == "__main__":
-    # Parámetros de entrada (definidos aquí)
-    plano = (-2.0, 1.0, -1.5, 1.5)
-    resolucion = (500, 500)
-    max_iteraciones = 100
+    # Configuración inicial
+    plano = (-2.0, 1.0, -1.5, 1.5)  # Rango del plano complejo
+    resolucion = (800, 800)  # Resolución inicial para la GUI
+    max_iteraciones = 0  # Iteraciones iniciales para que se visualice algo
 
-    # Generar el conjunto de Mandelbrot
-    mandelbrot_matrix = generar_conjunto_mandelbrot(plano, resolucion, max_iteraciones)
-
-    # Contar los puntos dentro del conjunto
-    puntos_dentro = contar_puntos_dentro(mandelbrot_matrix, max_iteraciones)
-    print(f"Puntos dentro del conjunto: {puntos_dentro}")
-
-    crear_gui_mandelbrot(generar_conjunto_mandelbrot, contar_puntos_dentro)
+    # Llamar a la GUI, pasando los valores iniciales
+    crear_gui_mandelbrot(generar_conjunto_mandelbrot, contar_puntos_dentro, plano, resolucion, max_iteraciones)
 
 
