@@ -242,11 +242,6 @@ def create_gui_Koch(generate_koch, calculate_area, calculate_perimeter):
 #===============================================================================================================
 #===============================================================================================================
 # Función para crear la GUI de Mandelbrot
-import tkinter as tk
-from tkinter import messagebox
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-import matplotlib.pyplot as plt
-import numpy as np
 
 def crear_gui_mandelbrot(generar_conjunto_func, contar_puntos_dentro_func, plano_inicial, resolucion_inicial, iteraciones_iniciales):
     # Variables locales sincronizadas con main.py
@@ -309,12 +304,18 @@ def crear_gui_mandelbrot(generar_conjunto_func, contar_puntos_dentro_func, plano
     ventana = tk.Tk()
     ventana.title("Conjunto de Mandelbrot")
 
+    # Configurar la ventana en pantalla completa
+    ventana.attributes('-fullscreen', True)
+
+    # Cambiar el fondo de la ventana a gris oscuro
+    ventana.config(bg='#2e2e2e')
+
     # Etiqueta para iteraciones
-    label_iteraciones = tk.Label(ventana, text=f"Iteraciones: {max_iteraciones}", font=("Arial", 14))
+    label_iteraciones = tk.Label(ventana, text=f"Iteraciones: {max_iteraciones}", font=("Arial", 14), bg='#2e2e2e', fg='white')
     label_iteraciones.pack(pady=10)
 
     # Botones para iteraciones
-    frame_iteraciones = tk.Frame(ventana)
+    frame_iteraciones = tk.Frame(ventana, bg='#2e2e2e')
     frame_iteraciones.pack()
 
     boton_sumar = tk.Button(frame_iteraciones, text="+", command=lambda: sumar_iteracion(label_iteraciones, figura, canvas, label_area), width=4, height=1, font=("Arial", 12))
@@ -324,28 +325,28 @@ def crear_gui_mandelbrot(generar_conjunto_func, contar_puntos_dentro_func, plano
     boton_restar.grid(row=0, column=1, padx=10)
 
     # Etiquetas y entradas para el rango del conjunto
-    frame_rango = tk.Frame(ventana)
+    frame_rango = tk.Frame(ventana, bg='#2e2e2e')
     frame_rango.pack(pady=10)
 
-    label_x_min = tk.Label(frame_rango, text="X min:", font=("Arial", 12))
+    label_x_min = tk.Label(frame_rango, text="X min:", font=("Arial", 12), bg='#2e2e2e', fg='white')
     label_x_min.grid(row=0, column=0)
     entry_x_min = tk.Entry(frame_rango, font=("Arial", 12))
     entry_x_min.insert(0, f"{x_min}")
     entry_x_min.grid(row=0, column=1)
 
-    label_x_max = tk.Label(frame_rango, text="X max:", font=("Arial", 12))
+    label_x_max = tk.Label(frame_rango, text="X max:", font=("Arial", 12), bg='#2e2e2e', fg='white')
     label_x_max.grid(row=1, column=0)
     entry_x_max = tk.Entry(frame_rango, font=("Arial", 12))
     entry_x_max.insert(0, f"{x_max}")
     entry_x_max.grid(row=1, column=1)
 
-    label_y_min = tk.Label(frame_rango, text="Y min:", font=("Arial", 12))
+    label_y_min = tk.Label(frame_rango, text="Y min:", font=("Arial", 12), bg='#2e2e2e', fg='white')
     label_y_min.grid(row=2, column=0)
     entry_y_min = tk.Entry(frame_rango, font=("Arial", 12))
     entry_y_min.insert(0, f"{y_min}")
     entry_y_min.grid(row=2, column=1)
 
-    label_y_max = tk.Label(frame_rango, text="Y max:", font=("Arial", 12))
+    label_y_max = tk.Label(frame_rango, text="Y max:", font=("Arial", 12), bg='#2e2e2e', fg='white')
     label_y_max.grid(row=3, column=0)
     entry_y_max = tk.Entry(frame_rango, font=("Arial", 12))
     entry_y_max.insert(0, f"{y_max}")
@@ -355,11 +356,11 @@ def crear_gui_mandelbrot(generar_conjunto_func, contar_puntos_dentro_func, plano
     boton_cambiar_rango.grid(row=4, column=0, columnspan=2, pady=10)
 
     # Etiqueta para los puntos dentro del conjunto
-    label_area = tk.Label(ventana, text="Puntos dentro: 0", font=("Arial", 14))
+    label_area = tk.Label(ventana, text="Puntos dentro: 0", font=("Arial", 14), bg='#2e2e2e', fg='white')
     label_area.pack(pady=10)
 
     # Espacio para el gráfico
-    frame_grafico = tk.Frame(ventana)
+    frame_grafico = tk.Frame(ventana, bg='#2e2e2e')
     frame_grafico.pack()
 
     # Crear el gráfico con Matplotlib
@@ -368,12 +369,15 @@ def crear_gui_mandelbrot(generar_conjunto_func, contar_puntos_dentro_func, plano
     canvas_widget = canvas.get_tk_widget()
     canvas_widget.pack()
 
+    # Botón de cerrar en la parte inferior
+    boton_cerrar = tk.Button(ventana, text="Volver", command=ventana.destroy, font=("Arial", 14), width=20, fg='black', bg='white')
+    boton_cerrar.pack(side='bottom', pady=20)
+
     # Actualizar la GUI por primera vez
     actualizar_gui(label_iteraciones, figura, canvas, label_area)
 
     # Ejecutar la ventana
     ventana.mainloop()
-
 
 
 
@@ -386,13 +390,8 @@ def abrir_sierpinski(generar_puntos_sierpinski, calcular_area_sierpinski, iterac
     gui_triangulo_sierpinski(generar_puntos_sierpinski, calcular_area_sierpinski, iteraciones, longitud_lado, color_triangulo, A, B, C)
 
 # Función para abrir una ventana de información
-def abrir_info():
-    ventana_info = tk.Toplevel()     
-    ventana_info.title("Información")
-    label_info = tk.Label(ventana_info, text="Esta es una ventana de información.", font=("Arial", 12))
-    label_info.pack(pady=20)
-    boton_cerrar = tk.Button(ventana_info, text="Cerrar", command=ventana_info.destroy, font=("Arial", 12))
-    boton_cerrar.pack(pady=10)
+def abrir_mandelbrot(generar_conjunto_func, contar_puntos_dentro_func, plano_inicial, resolucion_inicial, iteraciones_iniciales):
+    crear_gui_mandelbrot (generar_conjunto_func, contar_puntos_dentro_func, plano_inicial, resolucion_inicial, iteraciones_iniciales)
 
 # Función para abrir una ventana de configuración
 def abrir_configuracion():
@@ -404,7 +403,7 @@ def abrir_configuracion():
     boton_cerrar.pack(pady=10)
 
 # Función que crea la ventana principal con los botones
-def pantalla_principal(generar_puntos_sierpinski, calcular_area_sierpinski, iteraciones, longitud_lado, color_triangulo, A, B, C):
+def pantalla_principal(generar_puntos_sierpinski, calcular_area_sierpinski, iteraciones, longitud_lado, color_triangulo, A, B, C, generar_conjunto_mandelbrot, contar_puntos_dentro, plano_inicial, resolucion_inicial, iteraciones_iniciales):
     ventana_principal = tk.Tk()
     ventana_principal.title("Pantalla Principal")
     
@@ -434,10 +433,10 @@ def pantalla_principal(generar_puntos_sierpinski, calcular_area_sierpinski, iter
     boton_sierpinski = tk.Button(ventana_principal, text="Triángulo de Sierpinski", command=lambda: abrir_sierpinski(generar_puntos_sierpinski, calcular_area_sierpinski, iteraciones, longitud_lado, color_triangulo, A, B, C), font=("Arial", 14), width=20, fg='black', bg='white')
     boton_sierpinski.pack(pady=10)
 
-    boton_info = tk.Button(ventana_principal, text="Copo de Nieve de Koch", command=abrir_info, font=("Arial", 14), width=20, fg='black', bg='white')
+    boton_info = tk.Button(ventana_principal, text="Conjunto de Mandelbrot", command=lambda:abrir_mandelbrot(generar_conjunto_mandelbrot, contar_puntos_dentro, plano_inicial, resolucion_inicial, iteraciones_iniciales), font=("Arial", 14), width=20, fg='black', bg='white')
     boton_info.pack(pady=10)
 
-    boton_configuracion = tk.Button(ventana_principal, text="Conjunto de Mandelbrot", command=abrir_configuracion, font=("Arial", 14), width=20, fg='black', bg='white')
+    boton_configuracion = tk.Button(ventana_principal, text="Copo de nieve de Koch", command=abrir_configuracion, font=("Arial", 14), width=20, fg='black', bg='white')
     boton_configuracion.pack(pady=10)
 
     # Etiquetas encima del botón de cerrar (antes de cerrar la ventana)
