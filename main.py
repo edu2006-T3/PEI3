@@ -32,23 +32,27 @@ pantalla_principal (generar_puntos_sierpinski, calcular_area_sierpinski, iteraci
 #=======================================================================================
 #COPO DE NIEVE KOCH
 
-from physics import generar_puntos_koch, calcular_perimetro_koch
-from gui import crear_gui
-
-if __name__ == "__main__":
-    # Conectamos las funciones de physics con la GUI
-    crear_gui(generar_puntos_koch, calcular_perimetro_koch)
-
-    # Instrucción para ejecutar: python main.py
-
-#VERSIÓN 2
-
-# main.py
-
+from physics import generate_koch_snowflake, calculate_perimeter_koch, calculate_area_koch
 from gui import create_gui_Koch
-from physics import generate_koch_snowflake, calculate_area_koch, calculate_perimeter_koch
+from numpy import array
+from math import sqrt
+
+# VALORES INICIALES DEL COPO DE NIEVE DE KOCH
+iteraciones = 0  # Número de iteraciones (puede ser modificado desde la GUI)
+escala = 1.0  # Tamaño del fractal
+color_fractal = 'blue'  # Color del fractal
+
+# GENERACIÓN DEL TRIÁNGULO BASE
+# Coordenadas iniciales del triángulo equilátero que define la base del copo
+altura = (sqrt(3) / 2) * escala
+A = array([0, 0])
+B = array([escala, 0])  # Lado horizontal del triángulo
+C = array([escala / 2, altura])  # Punto superior
+
+# EJECUCIÓN DE LA INTERFAZ GRÁFICA
 if __name__ == "__main__":
     create_gui_Koch()
+    
 #==========================================================================================
 #CONJUNTO DE MANDELBROT
 
