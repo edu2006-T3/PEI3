@@ -154,94 +154,96 @@ def gui_triangulo_sierpinski(generar_puntos_func, calcular_area_func, iteracione
 
     # Ejecutar la ventana principal
     ventana.mainloop()
-#======================================================================================================================================================================
-#======================================================================================================================================================================
-#GUI DE COPO DE NIEVE DE KOCH
-
-import tkinter as tk
-from tkinter import ttk
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-import matplotlib.pyplot as plt
-
-def create_gui_Koch(generate_koch, calculate_area, calculate_perimeter):
-    """
-    Create the GUI for interacting with the Koch snowflake generator.
-    """
-    def update_plot():
-        # Get user input
-        try:
-            order = int(iterations_var.get())
-            scale = float(scale_var.get())
-        except ValueError:
-            error_label.config(text="Por favor, ingresa valores válidos.")
-            return
-
-        # Generate snowflake points
-        points = generate_koch(order, scale)
-
-        # Calculate perimeter and area
-        perimeter = calculate_perimeter(points)
-        area = calculate_area(order, scale)
-
-        # Update labels
-        perimeter_var.set(f"Perímetro: {perimeter:.2f}")
-        area_var.set(f"Área: {area:.2f}")
-
-        # Plot the snowflake
-        ax.clear()
-        ax.plot(points[:, 0], points[:, 1], color='blue', lw=1)
-        ax.axis('equal')
-        ax.set_title(f"Copo de Nieve de Koch (Orden {order})")
-        canvas.draw()
-
-    # Create the main window
-    root = tk.Tk()
-    root.title("Generador del Copo de Nieve de Koch")
-    root.geometry("800x600")
-
-    # Input variables
-    iterations_var = tk.StringVar(value="3")
-    scale_var = tk.StringVar(value="5")
-    perimeter_var = tk.StringVar(value="Perímetro: N/A")
-    area_var = tk.StringVar(value="Área: N/A")
-
-    # Create input frame
-    input_frame = ttk.Frame(root)
-    input_frame.pack(side=tk.TOP, fill=tk.X, padx=10, pady=10)
-
-    ttk.Label(input_frame, text="Iteraciones:").pack(side=tk.LEFT, padx=5)
-    ttk.Entry(input_frame, textvariable=iterations_var, width=5).pack(side=tk.LEFT, padx=5)
-
-    ttk.Label(input_frame, text="Escala:").pack(side=tk.LEFT, padx=5)
-    ttk.Entry(input_frame, textvariable=scale_var, width=5).pack(side=tk.LEFT, padx=5)
-
-    generate_button = ttk.Button(input_frame, text="Generar", command=update_plot)
-    generate_button.pack(side=tk.LEFT, padx=10)
-
-    error_label = ttk.Label(input_frame, text="", foreground="red")
-    error_label.pack(side=tk.LEFT, padx=10)
-
-    # Display perimeter and area
-    ttk.Label(root, textvariable=perimeter_var).pack(pady=5)
-    ttk.Label(root, textvariable=area_var).pack(pady=5)
-
-    # Create plot frame
-    figure, ax = plt.subplots(figsize=(6, 6))
-    canvas = FigureCanvasTkAgg(figure, master=root)
-    canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
-
-    # Start the GUI loop
-    root.mainloop()
 
 
+# # ======================================================================================================================================================================
+# # ======================================================================================================================================================================
+
+# #GUI DE COPO DE NIEVE DE KOCH
+
+# import tkinter as tk
+# from tkinter import ttk
+# import matplotlib.pyplot as plt
+# from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+
+# def crear_gui(generar_puntos_koch, calcular_perimetro_koch):
+#     """
+#     Crea la interfaz gráfica para interactuar con el fractal del copo de nieve de Koch.
+#     :param generar_puntos_koch: Función para calcular los puntos del fractal.
+#     :param calcular_perimetro_koch: Función para calcular el perímetro del fractal.
+#     """
+#     # Crear la ventana principal
+#     root = tk.Tk()
+#     root.title("Fractal: Copo de Nieve de Koch")
+#     root.geometry("800x600")
+
+#     # Variables de control
+#     iteraciones_var = tk.IntVar(value=3)  # Número de iteraciones
+#     perimetro_var = tk.StringVar(value="Perímetro: N/A")
+
+#     # Función para actualizar el fractal
+#     def actualizar_fractal():
+#         # Leer el número de iteraciones
+#         iteraciones = iteraciones_var.get()
+
+#         # Puntos iniciales del segmento base
+#         A = [0, 0]
+#         B = [1, 0]
+
+#         # Generar los puntos del fractal
+#         puntos = generar_puntos_koch(A, B, iteraciones)
+#         x_coords = [p[0] for p in puntos]
+#         y_coords = [p[1] for p in puntos]
+
+#         # Calcular el perímetro
+#         perimetro = calcular_perimetro_koch(puntos)
+#         perimetro_var.set(f"Perímetro: {perimetro:.2f}")
+
+#         # Dibujar el fractal en el lienzo Matplotlib
+#         ax.clear()
+#         ax.plot(x_coords, y_coords, color="blue")
+#         ax.set_title(f"Fractal de Koch (Iteraciones: {iteraciones})")
+#         ax.axis('equal')
+#         canvas.draw()
+
+#     # Frame superior para controles
+#     controls_frame = ttk.Frame(root)
+#     controls_frame.pack(side=tk.TOP, fill=tk.X, padx=10, pady=10)
+
+#     # Etiqueta y entrada para iteraciones
+#     ttk.Label(controls_frame, text="Número de iteraciones:").pack(side=tk.LEFT, padx=5)
+#     iteraciones_entry = ttk.Entry(controls_frame, textvariable=iteraciones_var, width=5)
+#     iteraciones_entry.pack(side=tk.LEFT, padx=5)
+
+#     # Botón para generar el fractal
+#     generar_button = ttk.Button(controls_frame, text="Generar Fractal", command=actualizar_fractal)
+#     generar_button.pack(side=tk.LEFT, padx=10)
+
+#     # Etiqueta para el perímetro
+#     ttk.Label(controls_frame, textvariable=perimetro_var).pack(side=tk.LEFT, padx=10)
+
+#     # Área de visualización del fractal
+#     figure, ax = plt.subplots(figsize=(6, 6))
+#     canvas = FigureCanvasTkAgg(figure, master=root)
+#     canvas_widget = canvas.get_tk_widget()
+#     canvas_widget.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+
+#     # Mostrar la ventana principal
+#     root.mainloop()
+
+# # Placeholder functions for testing the GUI.
+# def generar_puntos_koch(A, B, iteraciones):
+#     return [A, B]  # Replace with the actual fractal generation logic
+
+# def calcular_perimetro_koch(puntos):
+#     return 0  # Replace with actual perimeter calculation logic
+
+# # Uncomment the following line to test the GUI (replace placeholder functions with actual implementations).
+# # crear_gui(generar_puntos_koch, calcular_perimetro_koch)
 
 
-
-
-
-#===============================================================================================================
-#===============================================================================================================
-# Función para crear la GUI de Mandelbrot
+# #===============================================================================================================
+# #===============================================================================================================
 
 def crear_gui_mandelbrot(generar_conjunto_func, contar_puntos_dentro_func, plano_inicial, resolucion_inicial, iteraciones_iniciales):
     # Variables locales sincronizadas con main.py
@@ -378,9 +380,6 @@ def crear_gui_mandelbrot(generar_conjunto_func, contar_puntos_dentro_func, plano
 
     # Ejecutar la ventana
     ventana.mainloop()
-
-
-
 # # ======================================================================================================================================================================
 # # ======================================================================================================================================================================
 
