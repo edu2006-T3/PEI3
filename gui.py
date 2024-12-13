@@ -227,6 +227,94 @@ def calcular_perimetro_koch(puntos):
 # crear_gui(generar_puntos_koch, calcular_perimetro_koch)
 
 
+#VERSIÓN 2
+
+# gui.py
+import numpy 
+import tkinter as tk
+from tkinter import ttk
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import matplotlib.pyplot as plt
+from physics import generate_koch_snowflake, calculate_perimeter_koch, calculate_area_koch
+
+def create_gui_Koch():
+    # gui.py
+
+
+    print("GUI for Koch Snowflake is working!")
+
+    """
+    Create the GUI for interacting with the Koch snowflake generator.
+    """
+    def update_plot():
+        # Get user input
+        try:
+            order = int(iterations_var.get())
+            scale = float(scale_var.get())
+        except ValueError:
+            error_label.config(text="Por favor, ingresa valores válidos.")
+            return
+
+        # Generate snowflake points
+        points = generate_koch_snowflake(order, scale)
+
+        # Calculate perimeter and area
+        perimeter = calculate_perimeter_koch(points)
+        area = calculate_area_koch(order, scale)
+
+        # Update labels
+        perimeter_var.set(f"Perímetro: {perimeter:.2f}")
+        area_var.set(f"Área: {area:.2f}")
+
+        # Plot the snowflake
+        ax.clear()
+        ax.plot(points[:, 0], points[:, 1], color='blue', lw=1)
+        ax.axis('equal')
+        ax.set_title(f"Copo de Nieve de Koch (Orden {order})")
+        canvas.draw()
+
+    # Create the main window
+    root = tk.Tk()
+    root.title("Generador del Copo de Nieve de Koch")
+    root.geometry("800x600")
+
+    # Input variables
+    iterations_var = tk.StringVar(value="3")
+    scale_var = tk.StringVar(value="5")
+    perimeter_var = tk.StringVar(value="Perímetro: N/A")
+    area_var = tk.StringVar(value="Área: N/A")
+
+    # Create input frame
+    input_frame = ttk.Frame(root)
+    input_frame.pack(side=tk.TOP, fill=tk.X, padx=10, pady=10)
+
+    ttk.Label(input_frame, text="Iteraciones:").pack(side=tk.LEFT, padx=5)
+    ttk.Entry(input_frame, textvariable=iterations_var, width=5).pack(side=tk.LEFT, padx=5)
+
+    ttk.Label(input_frame, text="Escala:").pack(side=tk.LEFT, padx=5)
+    ttk.Entry(input_frame, textvariable=scale_var, width=5).pack(side=tk.LEFT, padx=5)
+
+    generate_button = ttk.Button(input_frame, text="Generar", command=update_plot)
+    generate_button.pack(side=tk.LEFT, padx=10)
+
+    error_label = ttk.Label(input_frame, text="", foreground="red")
+    error_label.pack(side=tk.LEFT, padx=10)
+
+    # Display perimeter and area
+    ttk.Label(root, textvariable=perimeter_var).pack(pady=5)
+    ttk.Label(root, textvariable=area_var).pack(pady=5)
+
+    # Create plot frame
+    figure, ax = plt.subplots(figsize=(6, 6))
+    canvas = FigureCanvasTkAgg(figure, master=root)
+    canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
+
+    # Start the GUI loop
+    root.mainloop()
+
+
+
+
 
 
 
