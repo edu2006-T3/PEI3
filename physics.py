@@ -38,6 +38,7 @@ def calcular_area_sierpinski(longitud_lado, iteraciones):
     factor_reduccion = (3 / 4)        # Factor de conservación de área por iteración
     
     area_final = area_inicial * (factor_reduccion ** iteraciones)   # Área total después de las iteraciones
+    return area_final
  #==========================================================================================================================
  #COPO DE NIEVE DE KOCH
 
