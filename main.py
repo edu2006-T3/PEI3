@@ -19,8 +19,8 @@ C = array([longitud_lado / 2, altura])
 
 # Parámetros de entrada - CONJUNTO DE MANDELBROT
     plano = (-2.0, 1.0, -1.5, 1.5)
-    resolucion = (500, 500)
-    max_iteraciones = 100
+    resolucion = (800, 800)
+    max_iteraciones = 0
 
 # ======================================================================================================================
 
