@@ -85,40 +85,46 @@ def gui_triangulo_sierpinski(generar_puntos_func, calcular_area_func, iteracione
     ventana = tk.Tk()
     ventana.title("Triángulo de Sierpinski")
 
+    # Ventana a pantalla completa
+    ventana.attributes('-fullscreen', True)
+
+    # Configurar el color de fondo gris oscuro
+    ventana.configure(bg='#2e2e2e')  # Gris oscuro
+
     # Etiqueta para iteraciones
-    label_iteraciones = tk.Label(ventana, text=f"Iteraciones: {iteraciones}", font=("Arial", 14))
+    label_iteraciones = tk.Label(ventana, text=f"Iteraciones: {iteraciones}", font=("Arial", 14), fg='white', bg='#2e2e2e')
     label_iteraciones.pack(pady=10)
 
     # Botones para iteraciones
-    frame_iteraciones = tk.Frame(ventana)
+    frame_iteraciones = tk.Frame(ventana, bg='#2e2e2e')
     frame_iteraciones.pack()
 
-    boton_sumar = tk.Button(frame_iteraciones, text="+", command=lambda: sumar_iteracion(label_iteraciones, label_longitud_lado, figura, canvas, label_area), width=4, height=1, font=("Arial", 12))
+    boton_sumar = tk.Button(frame_iteraciones, text="+", command=lambda: sumar_iteracion(label_iteraciones, label_longitud_lado, figura, canvas, label_area), width=4, height=1, font=("Arial", 12), fg='black', bg='white')
     boton_sumar.grid(row=0, column=0, padx=10)
 
-    boton_restar = tk.Button(frame_iteraciones, text="-", command=lambda: restar_iteracion(label_iteraciones, label_longitud_lado, figura, canvas, label_area), width=4, height=1, font=("Arial", 12))
+    boton_restar = tk.Button(frame_iteraciones, text="-", command=lambda: restar_iteracion(label_iteraciones, label_longitud_lado, figura, canvas, label_area), width=4, height=1, font=("Arial", 12), fg='black', bg='white')
     boton_restar.grid(row=0, column=1, padx=10)
 
     # Etiqueta y entrada para la longitud del lado
-    frame_longitud = tk.Frame(ventana)
+    frame_longitud = tk.Frame(ventana, bg='#2e2e2e')
     frame_longitud.pack(pady=10)
 
-    label_longitud_lado = tk.Label(frame_longitud, text=f"Longitud Lado: {longitud_lado:.2f}", font=("Arial", 14))
+    label_longitud_lado = tk.Label(frame_longitud, text=f"Longitud Lado: {longitud_lado:.2f}", font=("Arial", 14), fg='white', bg='#2e2e2e')
     label_longitud_lado.grid(row=0, column=0)
 
     entry_longitud_lado = tk.Entry(frame_longitud, font=("Arial", 12), width=8)
     entry_longitud_lado.grid(row=0, column=1)
     entry_longitud_lado.insert(0, f"{longitud_lado:.2f}")
 
-    boton_cambiar_longitud = tk.Button(frame_longitud, text="Cambiar", command=lambda: cambiar_longitud_lado(entry_longitud_lado, label_longitud_lado, figura, canvas, label_area), width=8, height=1, font=("Arial", 12))
+    boton_cambiar_longitud = tk.Button(frame_longitud, text="Cambiar", command=lambda: cambiar_longitud_lado(entry_longitud_lado, label_longitud_lado, figura, canvas, label_area), width=8, height=1, font=("Arial", 12), fg='black', bg='white')
     boton_cambiar_longitud.grid(row=0, column=2)
 
     # Etiqueta para el área
-    label_area = tk.Label(ventana, text="Área: 0.00000", font=("Arial", 14))
+    label_area = tk.Label(ventana, text="Área: 0.00000", font=("Arial", 14), fg='white', bg='#2e2e2e')
     label_area.pack(pady=10)
 
     # Espacio para el gráfico
-    frame_grafico = tk.Frame(ventana)
+    frame_grafico = tk.Frame(ventana, bg='#2e2e2e')
     frame_grafico.pack()
 
     # Crear el gráfico con Matplotlib
@@ -128,10 +134,10 @@ def gui_triangulo_sierpinski(generar_puntos_func, calcular_area_func, iteracione
     canvas_widget.pack()
 
     # Barra deslizante para cambiar el color del triángulo (de azul a rojo)
-    frame_color = tk.Frame(ventana)
+    frame_color = tk.Frame(ventana, bg='#2e2e2e')
     frame_color.pack(pady=20)
 
-    label_color = tk.Label(frame_color, text="Color Rojo-Azul", font=("Arial", 14))
+    label_color = tk.Label(frame_color, text="Color Rojo-Azul", font=("Arial", 14), fg='white', bg='#2e2e2e')
     label_color.grid(row=0, column=0)
 
     # Barra deslizante para el color rojo (que también controla el azul)
@@ -139,9 +145,15 @@ def gui_triangulo_sierpinski(generar_puntos_func, calcular_area_func, iteracione
     color_slider_rojo.set(0)  # Valor inicial (azul)
     color_slider_rojo.grid(row=1, column=0, columnspan=3, pady=10)
 
+    # Botón de cerrar en la parte inferior
+    boton_cerrar = tk.Button(ventana, text="Volver", command=ventana.destroy, font=("Arial", 14), width=20, fg='black', bg='white')
+    boton_cerrar.pack(side='bottom', pady=20)
+
     # Actualizar la GUI por primera vez
     actualizar_gui(label_iteraciones, label_longitud_lado, figura, canvas, label_area)
 
+    # Ejecutar la ventana principal
+    ventana.mainloop()
 #======================================================================================================================================================================
 #======================================================================================================================================================================
 #GUI DE COPO DE NIEVE DE KOCH
@@ -462,12 +474,12 @@ def crear_gui_mandelbrot(generar_conjunto_func, contar_puntos_dentro_func, plano
 
 # Función para abrir la ventana de Sierpinski
 def abrir_sierpinski(generar_puntos_sierpinski, calcular_area_sierpinski, iteraciones, longitud_lado, color_triangulo, A, B, C):
-    # Llamar a la función crear_gui 
+    # Llamar a la función crear_gui
     gui_triangulo_sierpinski(generar_puntos_sierpinski, calcular_area_sierpinski, iteraciones, longitud_lado, color_triangulo, A, B, C)
 
 # Función para abrir una ventana de información
 def abrir_info():
-    ventana_info = tk.Toplevel()
+    ventana_info = tk.Toplevel()     
     ventana_info.title("Información")
     label_info = tk.Label(ventana_info, text="Esta es una ventana de información.", font=("Arial", 12))
     label_info.pack(pady=20)
@@ -483,24 +495,53 @@ def abrir_configuracion():
     boton_cerrar = tk.Button(ventana_configuracion, text="Cerrar", command=ventana_configuracion.destroy, font=("Arial", 12))
     boton_cerrar.pack(pady=10)
 
-# Función que crea la ventana principal con tres botones
+# Función que crea la ventana principal con los botones
 def pantalla_principal(generar_puntos_sierpinski, calcular_area_sierpinski, iteraciones, longitud_lado, color_triangulo, A, B, C):
     ventana_principal = tk.Tk()
     ventana_principal.title("Pantalla Principal")
+    
+    # Ventana a pantalla completa
+    ventana_principal.attributes('-fullscreen', True)
+
+    # Configurar el color de fondo gris oscuro
+    ventana_principal.configure(bg='#2e2e2e')  # Gris oscuro
 
     # Etiqueta de bienvenida
-    label_bienvenida = tk.Label(ventana_principal, text="Bienvenido, selecciona una opción:", font=("Arial", 14))
+    label_bienvenida = tk.Label(ventana_principal, text="PEI 3 - Bienvenido, a nuestro trabajo", font=("Arial", 14), fg='white', bg='#2e2e2e')
     label_bienvenida.pack(pady=20)
 
-    # Crear los tres botones
-    boton_sierpinski = tk.Button(ventana_principal, text="Abrir Sierpinski", command=lambda: abrir_sierpinski(generar_puntos_sierpinski, calcular_area_sierpinski, iteraciones, longitud_lado, color_triangulo, A, B, C), font=("Arial", 14), width=20)
+    # Segunda etiqueta debajo de la primera
+    label_sub_bienvenida = tk.Label(ventana_principal, text="En este programa se estudiarán de forma gráfica algunos de los fractales más conocidos y algunas de sus características así como el perímetro o el área.", font=("Arial", 12), fg='white', bg='#2e2e2e')
+    label_sub_bienvenida.pack(pady=10)
+
+    # Quinto botón (ubicado arriba de los otros tres)
+    boton_quinto = tk.Button(ventana_principal, text="Información relativa a los fractales y la motivación de nuestro trabajo", font=("Arial", 14), width=60, fg='black', bg='white')
+    boton_quinto.pack(pady=10)
+
+    # Etiqueta debajo del quinto botón
+    label_bajo_quinto = tk.Label(ventana_principal, text="Por favor, escoja uno de los siguientes fractales:", font=("Arial", 12), fg='white', bg='#2e2e2e')
+    label_bajo_quinto.pack(pady=10)
+
+    # Crear los otros tres botones
+    boton_sierpinski = tk.Button(ventana_principal, text="Triángulo de Sierpinski", command=lambda: abrir_sierpinski(generar_puntos_sierpinski, calcular_area_sierpinski, iteraciones, longitud_lado, color_triangulo, A, B, C), font=("Arial", 14), width=20, fg='black', bg='white')
     boton_sierpinski.pack(pady=10)
 
-    boton_info = tk.Button(ventana_principal, text="Abrir Información", command=abrir_info, font=("Arial", 14), width=20)
+    boton_info = tk.Button(ventana_principal, text="Copo de Nieve de Koch", command=abrir_info, font=("Arial", 14), width=20, fg='black', bg='white')
     boton_info.pack(pady=10)
 
-    boton_configuracion = tk.Button(ventana_principal, text="Abrir Configuración", command=abrir_configuracion, font=("Arial", 14), width=20)
+    boton_configuracion = tk.Button(ventana_principal, text="Conjunto de Mandelbrot", command=abrir_configuracion, font=("Arial", 14), width=20, fg='black', bg='white')
     boton_configuracion.pack(pady=10)
+
+    # Etiquetas encima del botón de cerrar (antes de cerrar la ventana)
+    label_encima_cerrar_1 = tk.Label(ventana_principal, text="Trabajo realizado por: Eduardo Gómez Oliva, no me sé vuestros apellidos ", font=("Arial", 12), fg='white', bg='#2e2e2e')
+    label_encima_cerrar_1.pack(pady=10)
+
+    label_encima_cerrar_2 = tk.Label(ventana_principal, text="Esperemos que te haya gustado", font=("Arial", 12), fg='white', bg='#2e2e2e')
+    label_encima_cerrar_2.pack(pady=10)
+
+    # Botón de cerrar (ubicado al final)
+    boton_cerrar = tk.Button(ventana_principal, text="Cerrar", command=ventana_principal.destroy, font=("Arial", 14), width=20, fg='black', bg='white')
+    boton_cerrar.pack(side='bottom', pady=10)
 
     # Ejecutar la ventana principal
     ventana_principal.mainloop()
