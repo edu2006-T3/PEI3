@@ -121,3 +121,28 @@ def contar_puntos_dentro(mandelbrot_matrix, max_iteraciones):
     puntos_dentro = sum(mandelbrot_matrix == max_iteraciones)
     return puntos_dentro
 
+def generar_conjunto_mandelbrot(plano, resolucion, max_iteraciones):
+    """
+    Genera el conjunto de Mandelbrot utilizando operaciones vectorizadas con NumPy.
+    """
+    x_min, x_max, y_min, y_max = plano
+    ancho, alto = resolucion
+
+    # Creamos las grillas para las coordenadas reales e imaginarias
+    x = np.linspace(x_min, x_max, ancho)
+    y = np.linspace(y_min, y_max, alto)
+    X, Y = np.meshgrid(x, y)  # Matrices de coordenadas
+
+    # Inicializamos las matrices
+    c = X + 1j * Y  # Matriz de números complejos
+    z = np.zeros_like(c, dtype=complex)  # Matriz de iteración
+    mandelbrot_matrix = np.zeros(c.shape, dtype=int)  # Matriz para almacenar iteraciones
+
+    # Vectorizamos el cálculo del escape
+    for i in range(max_iteraciones):
+        mask = np.abs(z) <= 2  # Identificamos puntos que aún no escapan
+        z[mask] = z[mask] ** 2 + c[mask]  # Aplicamos la fórmula solo a puntos dentro del límite
+        mandelbrot_matrix[mask] += 1  # Incrementamos las iteraciones
+
+    return mandelbrot_matrix
+
