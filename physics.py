@@ -70,48 +70,13 @@ def calcular_area_sierpinski(longitud_lado, iteraciones):
 #=====================================================================================
 #=====================================================================================
 
-#CONJUNTO DE MANDELBROT
+# #CONJUNTO DE MANDELBROT
 
-from numpy import linspace, zeros, abs, sum
-
-#======================================================================================
-
-# Función para generar el conjunto de Mandelbrot
-def generar_conjunto_mandelbrot(plano, resolucion, max_iteraciones):
-  
-    x_min, x_max, y_min, y_max = plano
-    ancho, alto = resolucion
-
-    mandelbrot_matrix = zeros((alto, ancho), dtype=int)
-
-    # Creamos las grillas para las coordenadas reales e imaginarias
-    x = linspace(x_min, x_max, ancho)
-    y = linspace(y_min, y_max, alto)
-
-    for i, imag in enumerate(y):
-        for j, real in enumerate(x):
-            c = complex(real, imag)
-            z = 0 + 0j
-            iteraciones = 0
-
-            # Iteramos para determinar si el punto escapa
-            while abs(z) <= 2 and iteraciones < max_iteraciones:
-                z = z**2 + c
-                iteraciones += 1
-
-            # Guardamos el número de iteraciones en la matriz
-            mandelbrot_matrix[i, j] = iteraciones
-
-    return mandelbrot_matrix
+from numpy import linspace, meshgrid, zeros_like, abs, zeros, sum
 
 #======================================================================================
 
-# Función para contar los puntos dentro del conjunto de Mandelbrot
-def contar_puntos_dentro(mandelbrot_matrix, max_iteraciones):
-
-    puntos_dentro = sum(mandelbrot_matrix == max_iteraciones)
-    return puntos_dentro
-
+# Función para generar el conjunto de Mandelbrot usando NumPy
 def generar_conjunto_mandelbrot(plano, resolucion, max_iteraciones):
     """
     Genera el conjunto de Mandelbrot utilizando operaciones vectorizadas con NumPy.
@@ -120,20 +85,29 @@ def generar_conjunto_mandelbrot(plano, resolucion, max_iteraciones):
     ancho, alto = resolucion
 
     # Creamos las grillas para las coordenadas reales e imaginarias
-    x = np.linspace(x_min, x_max, ancho)
-    y = np.linspace(y_min, y_max, alto)
-    X, Y = np.meshgrid(x, y)  # Matrices de coordenadas
+    x = linspace(x_min, x_max, ancho)
+    y = linspace(y_min, y_max, alto)
+    X, Y = meshgrid(x, y)  # Matrices de coordenadas
 
     # Inicializamos las matrices
     c = X + 1j * Y  # Matriz de números complejos
-    z = np.zeros_like(c, dtype=complex)  # Matriz de iteración
-    mandelbrot_matrix = np.zeros(c.shape, dtype=int)  # Matriz para almacenar iteraciones
+    z = zeros_like(c, dtype=complex)  # Matriz de iteración
+    mandelbrot_matrix = zeros(c.shape, dtype=int)  # Matriz para almacenar iteraciones
 
     # Vectorizamos el cálculo del escape
     for i in range(max_iteraciones):
-        mask = np.abs(z) <= 2  # Identificamos puntos que aún no escapan
+        mask = abs(z) <= 2  # Identificamos puntos que aún no escapan
         z[mask] = z[mask] ** 2 + c[mask]  # Aplicamos la fórmula solo a puntos dentro del límite
         mandelbrot_matrix[mask] += 1  # Incrementamos las iteraciones
 
     return mandelbrot_matrix
+
+#======================================================================================
+
+# Función para contar los puntos dentro del conjunto de Mandelbrot
+def contar_puntos_dentro(mandelbrot_matrix, max_iteraciones):
+    """
+    Cuenta los puntos que permanecen dentro del conjunto de Mandelbrot.
+    """
+    return sum(mandelbrot_matrix == max_iteraciones)
 
