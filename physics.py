@@ -41,45 +41,11 @@ def calcular_area_sierpinski(longitud_lado, iteraciones):
  #==========================================================================================================================
  #COPO DE NIEVE DE KOCH
 
-#Lógica recursiva
- def generar_puntos_koch(A, B, iteraciones): 
-    def koch_recursivo(p1, p2, nivel): 
-        if nivel == 0:
-            return [p1, p2]
-        else:
-            delta = (p2 - p1) / 3  #Cada elemento se divide en 3 partes iguales
-            p3 = p1 + delta
-            p5 = p2 - delta 
-
-            angle = pi / 3  # Se usa una matriz de rotación de 60 grados para situar el siguiente triángulo equilátero
-            rotation_matrix = array([[np.cos(angle), -sin(angle)], [sin(angle), cos(angle)]])
-            p4 = p3 + dot(rotation_matrix, delta) #Se sustituye la parte cental por un triángulo equilátero
-
-            return (
-                koch_recursivo(p1, p3, nivel - 1) +
-                koch_recursivo(p3, p4, nivel - 1)[1:] +
-                koch_recursivo(p4, p5, nivel - 1)[1:] +
-                koch_recursivo(p5, p2, nivel - 1)[1:]
-            )
-
-    return koch_recursivo(A, B, iteraciones)
-
-    
-    return area_final
-
-#VERSIÓN 2
-
-
-# physics.py
-import numpy
 import numpy as np
 
 def generate_koch_snowflake(order, scale=1):
     """
     Generate points for the Koch snowflake.
-    :param order: Recursion depth.
-    :param scale: Size scaling factor.
-    :return: Numpy array of points representing the snowflake.
     """
     def koch_recursive(p1, p2, depth):
         if depth == 0:
@@ -122,8 +88,6 @@ def generate_koch_snowflake(order, scale=1):
 def calculate_perimeter_koch(snowflake_points):
     """
     Calculate the perimeter of the Koch snowflake.
-    :param snowflake_points: Numpy array of points.
-    :return: Total perimeter length.
     """
     perimeter = 0
     for i in range(len(snowflake_points) - 1):
@@ -133,11 +97,7 @@ def calculate_perimeter_koch(snowflake_points):
 def calculate_area_koch(order, scale=1):
     """
     Calculate the area of the Koch snowflake.
-    :param order: Recursion depth.
-    :param scale: Size scaling factor.
-    :return: Total area of the snowflake.
     """
-    # Area of the initial triangle
     base_area = (np.sqrt(3) / 4) * scale ** 2
 
     # Area added at each iteration
