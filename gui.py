@@ -234,19 +234,25 @@ def calcular_perimetro_koch(puntos):
 #===============================================================================================================
 #===============================================================================================================
 # Función para crear la GUI de Mandelbrot
-def crear_gui_mandelbrot(generar_conjunto_func,contar_puntos_dentro):
-    # Variables locales
-    x_min, x_max, y_min, y_max = -2.0, 1.0, -1.5, 1.5
-    resolucion = (800, 800)
-    max_iteraciones = 0  # El valor inicial es 0
-    color_mandelbrot = 'inferno'  # Color por defecto
+import tkinter as tk
+from tkinter import messagebox
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import matplotlib.pyplot as plt
+import numpy as np
+
+def crear_gui_mandelbrot(generar_conjunto_func, contar_puntos_dentro_func, plano_inicial, resolucion_inicial, iteraciones_iniciales):
+    # Variables locales sincronizadas con main.py
+    x_min, x_max, y_min, y_max = plano_inicial
+    resolucion = resolucion_inicial
+    max_iteraciones = iteraciones_iniciales
+    color_mandelbrot = 'inferno'
 
     def actualizar_mandelbrot(figura, canvas, label_area):
         # Generar el conjunto de Mandelbrot
         mandelbrot_matrix = generar_conjunto_func((x_min, x_max, y_min, y_max), resolucion, max_iteraciones)
 
-        # Calcular el área (número de puntos dentro del conjunto de Mandelbrot)
-        puntos_dentro = contar_puntos_dentro(mandelbrot_matrix, max_iteraciones)
+        # Calcular el área (número de puntos dentro del conjunto)
+        puntos_dentro = contar_puntos_dentro_func(mandelbrot_matrix, max_iteraciones)
         label_area.config(text=f"Puntos dentro: {puntos_dentro}")
 
         # Limpiar el gráfico anterior
@@ -271,7 +277,7 @@ def crear_gui_mandelbrot(generar_conjunto_func,contar_puntos_dentro):
 
     def restar_iteracion(label_iteraciones, figura, canvas, label_area):
         nonlocal max_iteraciones
-        if max_iteraciones > 0:  # Asegurarse de que no baje de 0
+        if max_iteraciones > 0:
             max_iteraciones -= 1
         actualizar_gui(label_iteraciones, figura, canvas, label_area)
 
@@ -354,22 +360,12 @@ def crear_gui_mandelbrot(generar_conjunto_func,contar_puntos_dentro):
     canvas_widget = canvas.get_tk_widget()
     canvas_widget.pack()
 
-    # Barra deslizante para cambiar el color del conjunto de Mandelbrot
-    frame_color = tk.Frame(ventana)
-    frame_color.pack(pady=20)
-
-    label_color = tk.Label(frame_color, text="Color del Conjunto", font=("Arial", 14))
-    label_color.grid(row=0, column=0)
-
-    color_slider = tk.Scale(frame_color, from_=0, to=255, orient='horizontal', label="Color", command=cambiar_color, length=350)
-    color_slider.set(128)  # Valor inicial
-    color_slider.grid(row=1, column=0, columnspan=3, pady=10)
-
     # Actualizar la GUI por primera vez
     actualizar_gui(label_iteraciones, figura, canvas, label_area)
 
     # Ejecutar la ventana
     ventana.mainloop()
+
 
 
 
@@ -420,3 +416,4 @@ def pantalla_principal(generar_puntos_sierpinski, calcular_area_sierpinski, iter
 
     # Ejecutar la ventana principal
     ventana_principal.mainloop()
+
