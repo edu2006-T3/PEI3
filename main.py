@@ -7,15 +7,16 @@ from math import sqrt
 # #=======================================================================================
 
 # Valores iniciales
-iteraciones = 0
-longitud_lado = 1.0
-color_triangulo = 'blue'
+N = 0                                 # número de iteraciones iniciales
+l = 1.0                               # longitud del lado inicial del triángulo
+color = 'blue'
     
 # GENERACIÓN DEL TRIÁNGULO INICIAL 
-altura = (sqrt(3) / 2) * longitud_lado
+h = (sqrt(3) / 2) * l                 # altura
 A = array([0, 0])
-B = array([longitud_lado, 0])                     # Coordenadas de los puntos A, B, y C y altura del triángulo
-C = array([longitud_lado / 2, altura])
+B = array([l, 0])                     # Coordenadas de los puntos A, B, y C y altura del triángulo
+C = array([l / 2, h])
+
 
 # #=======================================================================================
 
@@ -26,7 +27,7 @@ iteraciones_iniciales = 0
 
 # #=======================================================================================
 
-pantalla_principal (generar_puntos_sierpinski, calcular_area_sierpinski, iteraciones, longitud_lado, color_triangulo, A, B, C, generar_conjunto_mandelbrot, contar_puntos_dentro, plano_inicial, resolucion_inicial, iteraciones_iniciales)
+pantalla_principal (generar_puntos_sierpinski, calcular_area_sierpinski, N, l, color, A, B, C, generar_conjunto_mandelbrot, contar_puntos_dentro, plano_inicial, resolucion_inicial, iteraciones_iniciales)
 
 # Dar a correr
 
