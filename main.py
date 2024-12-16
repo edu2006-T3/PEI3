@@ -53,7 +53,8 @@ C = array([escala / 2, altura])  # Punto superior
 
 # EJECUCIÓN DE LA INTERFAZ GRÁFICA
 if __name__ == "__main__":
-    create_gui_Koch()
+    # Pasa las funciones necesarias a la GUI
+    create_gui_Koch(generate_koch_snowflake, calculate_area_koch, calculate_perimeter_koch)
     
 #==========================================================================================
 #CONJUNTO DE MANDELBROT
