@@ -1,46 +1,53 @@
 # physics.py 
 
-from numpy import sqrt, array, pi, dot, sin, cos
-import matplotlib.pyplot as plt
+from math import sqrt
+
+from numpy import linspace, meshgrid, zeros_like, abs, zeros, sum
 
 #======================================================================================
 #======================================================================================
 
 # Función para la generación de los vértices
 
-def generar_puntos_sierpinski(A, B, C, iteraciones):
- 
-    puntos = []
+def generar_puntos_sierpinski(A, B, C, N):        # A, B y C son los vértices iniciales
+                                                  # N es el número de iteraciones
+    P = []       # Crea una lista donde se meten todos los puntos
 
-    def sierpinski_recursivo(A, B, C, nivel):
-        if nivel == 0:
-            puntos.append((A.tolist(), B.tolist(), C.tolist()))
-        else:
+    def sierpinski_recursivo(A, B, C, n):       # n es el nivel de generación, es decir, el número de iteraciones
+        if n == 0:                                      
+            P.append((list(A), list(B), list(C)))   # el .append añade los puntos a la lista P de puntos
+        else:                                       # Esto ocurre cuando se llega al nivel 0, es decir a la última iteración N
             AB_medio = (A + B) / 2
-            AC_medio = (A + C) / 2
+            AC_medio = (A + C) / 2                  # Calcula los puntos de cada triángulo en cada iteración
             BC_medio = (B + C) / 2
 
-            sierpinski_recursivo(A, AB_medio, AC_medio, nivel - 1)
-            sierpinski_recursivo(AB_medio, B, BC_medio, nivel - 1)
-            sierpinski_recursivo(AC_medio, BC_medio, C, nivel - 1)
+            sierpinski_recursivo(A, AB_medio, AC_medio, n - 1)
+            sierpinski_recursivo(AB_medio, B, BC_medio, n - 1)              # se vuelve a aplicar la función en cada triángulo, aplicando el método recursivo
+            sierpinski_recursivo(AC_medio, BC_medio, C, n - 1)
 
-    sierpinski_recursivo(A, B, C, iteraciones)
-    return puntos
+    sierpinski_recursivo(A, B, C, N)            # se aplica la función para N iteraciones y se devuelve la lista de vértices del fractal
+
+    return P                                    # se juntan ambas funciones para así importar el menor número de funciones a main.py
 
 #======================================================================================
 
 # Función para calcular el área del fractal
 
-def calcular_area_sierpinski(longitud_lado, iteraciones):
+def calcular_area_sierpinski(l, N):             # l es la longitud del lado inicial del triángulo
 
-    area_inicial = (sqrt(3) / 4) * longitud_lado**2              # Área inicial del triángulo equilátero
+    ai = (sqrt(3) / 4) * l**2              # Área inicial del triángulo = Fórmula del área de un triángulo equilátero
     
-    factor_reduccion = (3 / 4)        # Factor de conservación de área por iteración
+    beta = (3 / 4)        # Factor de conservación de área en cada iteración, en cada una se reduce un cuarto del área
     
-    area_final = area_inicial * (factor_reduccion ** iteraciones)   # Área total después de las iteraciones
-    return area_final
- #==========================================================================================================================
- #COPO DE NIEVE DE KOCH
+    an = ai * (beta ** N)   # Área total después de las n iteraciones
+    
+    return an
+
+#======================================================================================
+#======================================================================================
+#======================================================================================
+
+#COPO DE NIEVE DE KOCH
 
 import numpy as np
 
@@ -110,14 +117,12 @@ def calculate_area_koch(order, scale=1):
         added_area += num_new_triangles * triangle_area
 
     return base_area + added_area
-#=====================================================================================
-#=====================================================================================
-
-# #CONJUNTO DE MANDELBROT
-
-from numpy import linspace, meshgrid, zeros_like, abs, zeros, sum
 
 #======================================================================================
+#======================================================================================
+#======================================================================================
+
+# CONJUNTO DE MANDELBROT
 
 # Función para generar el conjunto de Mandelbrot usando NumPy
 def generar_conjunto_mandelbrot(plano, resolucion, max_iteraciones):
@@ -153,4 +158,10 @@ def contar_puntos_dentro(mandelbrot_matrix, max_iteraciones):
     Cuenta los puntos que permanecen dentro del conjunto de Mandelbrot.
     """
     return sum(mandelbrot_matrix == max_iteraciones)
+
+
+##########################################################################################
+##########################################################################################
+##########################################################################################
+
 
