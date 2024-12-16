@@ -33,15 +33,19 @@ def generar_puntos_sierpinski(A, B, C, N):        # A, B y C son los vértices i
 
 # Función para calcular el área del fractal
 
-def calcular_area_sierpinski(l, N):             # l es la longitud del lado inicial del triángulo
+# def calcular_area_sierpinski(l, N):             # l es la longitud del lado inicial del triángulo
 
-    ai = (sqrt(3) / 4) * l**2              # Área inicial del triángulo = Fórmula del área de un triángulo equilátero
+#     ai = (sqrt(3) / 4) * l**2              # Área inicial del triángulo = Fórmula del área de un triángulo equilátero
     
-    beta = (3 / 4)        # Factor de conservación de área en cada iteración, en cada una se reduce un cuarto del área
+#     beta = (3 / 4)        # Factor de conservación de área en cada iteración, en cada una se reduce un cuarto del área
     
-    an = ai * (beta ** N)   # Área total después de las n iteraciones
+#     an = ai * (beta ** N)   # Área total después de las n iteraciones
     
-    return an
+#     return an
+
+def calcular_area_sierpinski(l, N):
+
+    return (sqrt(3) / 4) * l**2 * (3 / 4) ** N        # Función optimizada
 
 #======================================================================================
 #======================================================================================
