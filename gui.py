@@ -170,96 +170,79 @@ def gui_triangulo_sierpinski(f, g, N, l, color, A, B, C):   # ARGUMENTOS: funci�
 
 # #GUI DE COPO DE NIEVE DE KOCH
 
-import tkinter as tk
-from tkinter import ttk
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-import matplotlib.pyplot as plt
-
 def create_gui_Koch(generate_koch, calculate_area, calculate_perimeter):
     """
     Create the GUI for interacting with the Koch snowflake generator.
     """
-    # Variables iniciales
-    order = 0  # Iteraciones iniciales
-    scale = 1.0
-
     def update_plot():
-        """
-        Genera y actualiza el gráfico del Copo de Nieve de Koch según las iteraciones y escala.
-        """
-        # Generar puntos para la iteración actual
+        # Get user input
+        try:
+            order = int(iterations_var.get())
+            scale = float(scale_var.get())
+        except ValueError:
+            error_label.config(text="Por favor, ingresa valores válidos.")
+            return
+
+        # Generate snowflake points
         points = generate_koch(order, scale)
 
-        # Calcular el perímetro y área
+        # Calculate perimeter and area
         perimeter = calculate_perimeter(points)
         area = calculate_area(order, scale)
 
-        # Actualizar etiquetas de perímetro y área
+        # Update labels
         perimeter_var.set(f"Perímetro: {perimeter:.2f}")
         area_var.set(f"Área: {area:.2f}")
 
-        # Redibujar el gráfico
+        # Plot the snowflake
         ax.clear()
         ax.plot(points[:, 0], points[:, 1], color='blue', lw=1)
         ax.axis('equal')
         ax.set_title(f"Copo de Nieve de Koch (Orden {order})")
         canvas.draw()
 
-    def aumentar_iteracion():
-        """
-        Aumenta el número de iteraciones y redibuja el gráfico.
-        """
-        nonlocal order
-        order += 1
-        update_plot()
-
-    def reducir_iteracion():
-        """
-        Reduce el número de iteraciones y redibuja el gráfico.
-        """
-        nonlocal order
-        if order > 0:
-            order -= 1
-        update_plot()
-
-    # Crear la ventana principal
-    root = tk.Tk()
+    # Create a subwindow instead of a main Tk window
+    root = Toplevel()
     root.title("Generador del Copo de Nieve de Koch")
     root.attributes('-fullscreen', True)
     root.configure(bg='#2e2e2e')
 
-    # Variables para mostrar perímetro y área
+    # Input variables
+    iterations_var = tk.StringVar(value="3")
+    scale_var = tk.StringVar(value="5")
     perimeter_var = tk.StringVar(value="Perímetro: N/A")
     area_var = tk.StringVar(value="Área: N/A")
 
-    # Marco para los controles de la GUI
-    input_frame = ttk.Frame(root)
+    # Create input frame
+    input_frame = Frame(root)
     input_frame.pack(side=tk.TOP, fill=tk.X, padx=10, pady=10)
 
-    # Botones para iteraciones
-    btn_aumentar = ttk.Button(input_frame, text="Aumentar Iteración", command=aumentar_iteracion)
-    btn_aumentar.pack(side=tk.LEFT, padx=5)
+    Label(input_frame, text="Iteraciones:").pack(side=tk.LEFT, padx=5)
+    Entry(input_frame, textvariable=iterations_var, width=5).pack(side=tk.LEFT, padx=5)
 
-    btn_reducir = ttk.Button(input_frame, text="Reducir Iteración", command=reducir_iteracion)
-    btn_reducir.pack(side=tk.LEFT, padx=5)
+    Label(input_frame, text="Escala:").pack(side=tk.LEFT, padx=5)
+    Entry(input_frame, textvariable=scale_var, width=5).pack(side=tk.LEFT, padx=5)
 
-    # Etiquetas para perímetro y área
-    ttk.Label(root, textvariable=perimeter_var, font=("Arial", 12)).pack(pady=5)
-    ttk.Label(root, textvariable=area_var, font=("Arial", 12)).pack(pady=5)
+    generate_button = Button(input_frame, text="Generar", command=update_plot)
+    generate_button.pack(side=tk.LEFT, padx=10)
 
-    # Área del gráfico
+    error_label = Label(input_frame, text="", foreground="red")
+    error_label.pack(side=tk.LEFT, padx=10)
+
+    # Display perimeter and area
+    Label(root, textvariable=perimeter_var, font=("Arial", 12), background="#2e2e2e", foreground="white").pack(pady=5)
+    Label(root, textvariable=area_var, font=("Arial", 12), background="#2e2e2e", foreground="white").pack(pady=5)
+
+    # Create plot frame
     figure, ax = plt.subplots(figsize=(6, 6))
     canvas = FigureCanvasTkAgg(figure, master=root)
     canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
 
-    # Botón de cerrar
+    # Close button
     boton_cerrar = Button(root, text="Volver", command=root.destroy, font=("Arial", 14), width=20, fg='black', bg='white')
     boton_cerrar.pack(side='bottom', pady=20)
 
-    # Dibujar la gráfica inicial
-    update_plot()
-
-    # Ejecutar la GUI
+    # Start the GUI loop
     root.mainloop()
 
 
