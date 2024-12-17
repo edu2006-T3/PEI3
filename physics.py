@@ -53,7 +53,8 @@ def calcular_area_sierpinski(l, N):
 
 #COPO DE NIEVE DE KOCH
 
-import numpy as np
+from numpy import pi, sin, cos, dot, array, sqrt
+from linalg import norm
 
 def generate_koch_snowflake(order, scale=1):
     """
@@ -68,12 +69,12 @@ def generate_koch_snowflake(order, scale=1):
         p5 = p2 - delta
 
         # Calculate the peak point of the triangle
-        angle = np.pi / 3  # 60 degrees
-        rotation_matrix = np.array([
-            [np.cos(angle), -np.sin(angle)],
-            [np.sin(angle), np.cos(angle)]
+        angle = pi / 3  # 60 degrees
+        rotation_matrix = array([
+            [cos(angle), -sin(angle)],
+            [sin(angle), cos(angle)]
         ])
-        peak = p3 + np.dot(rotation_matrix, delta)
+        peak = p3 + dot(rotation_matrix, delta)
 
         # Recursively process each segment
         return (
@@ -84,9 +85,9 @@ def generate_koch_snowflake(order, scale=1):
         )
 
     # Define the initial triangle
-    p1 = np.array([0, 0])
-    p2 = np.array([scale, 0])
-    p3 = np.array([scale / 2, scale * np.sqrt(3) / 2])
+    p1 = array([0, 0])
+    p2 = array([scale, 0])
+    p3 = array([scale / 2, scale * np.sqrt(3) / 2])
     triangle = [p1, p2, p3, p1]
 
     # Generate Koch snowflake by applying the recursive function to each side
@@ -103,7 +104,7 @@ def calculate_perimeter_koch(snowflake_points):
     """
     perimeter = 0
     for i in range(len(snowflake_points) - 1):
-        perimeter += np.linalg.norm(snowflake_points[i + 1] - snowflake_points[i])
+        perimeter += linalg.norm(snowflake_points[i + 1] - snowflake_points[i])
     return perimeter
 
 def calculate_area_koch(order, scale=1):
@@ -117,7 +118,7 @@ def calculate_area_koch(order, scale=1):
     for i in range(1, order + 1):
         num_new_triangles = 3 * (4 ** (i - 1))
         side_length = scale / (3 ** i)
-        triangle_area = (np.sqrt(3) / 4) * side_length ** 2
+        triangle_area = (sqrt(3) / 4) * side_length ** 2
         added_area += num_new_triangles * triangle_area
 
     return base_area + added_area
