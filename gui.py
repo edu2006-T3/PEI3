@@ -397,16 +397,16 @@ def crear_gui_mandelbrot(generar_conjunto_func, contar_puntos_dentro_func, plano
 
 def gui_información_relativa_fractales():
     # Crear la ventana principal
-    ventana = Tk()
-    ventana.title("Información sobre Fractales")
-    
+    ventana = Tk()  
+    ventana.title("Información sobre Fractales")  # Título de la ventana
+
     # Hacer que la ventana sea pantalla completa
-    ventana.attributes('-fullscreen', True)
+    ventana.attributes('-fullscreen', True)  # pantalla completa
 
-    # Configurar el fondo gris oscuro
-    ventana.config(bg="#2E2E2E")  # Fondo gris oscuro
+    # fondo gris oscuro
+    ventana.config(bg="#2E2E2E")  
 
-   # Crear un widget de texto (Text) con barra de desplazamiento
+    # texto (Label) con información sobre fractales
     informacion = """
     Los fractales son estructuras geométricas que se repiten a diferentes escalas, con patrones auto-simililares que se
     encuentran en la naturaleza, como en las ramas de los árboles, las hojas de las plantas o las formaciones de montañas.
@@ -432,83 +432,85 @@ def gui_información_relativa_fractales():
     """
 
     etiqueta = Label(ventana, text=informacion, font=("Arial", 15), bg="#2E2E2E", fg="white", justify="left", padx=20, pady=20)
-    etiqueta.pack(fill=BOTH, expand=True)
+    # fuente y estilo
+    etiqueta.pack(fill=BOTH, expand=True)  # Expande el widget para llenar el espacio disponible
 
-    # Botón "Volver" en la parte inferior de la ventana
+    # Botón "Volver" 
     boton_volver = Button(ventana, text="Volver", command=ventana.destroy, font=("Arial", 14), width=20, fg='black', bg='white')
-    boton_volver.pack(side='bottom', pady=20)
+    # Botón para cerrar la ventana al ser presionado
+    boton_volver.pack(side='bottom', pady=20)  # Posiciona el botón al final de la ventana
 
     # Ejecutar la ventana
-    ventana.mainloop()
+    ventana.mainloop()  # Inicia el bucle principal de la interfaz gráfica
 
 def abrir_informacion_fractales():
+    # Llama a la función que muestra la ventana con información sobre fractales
     gui_información_relativa_fractales()
 
-# Función para abrir la ventana de Sierpinski
 def abrir_sierpinski(generar_puntos_sierpinski, calcular_area_sierpinski, N, l, color, A, B, C):
-    # Llamar a la función crear_gui
+    # Abre una ventana para visualizar el Triángulo de Sierpinski
     gui_triangulo_sierpinski(generar_puntos_sierpinski, calcular_area_sierpinski, N, l, color, A, B, C)
 
-# Función para abrir una ventana de información
 def abrir_mandelbrot(generar_conjunto_func, contar_puntos_dentro_func, plano_inicial, resolucion_inicial, iteraciones_iniciales):
-    crear_gui_mandelbrot (generar_conjunto_func, contar_puntos_dentro_func, plano_inicial, resolucion_inicial, iteraciones_iniciales)
+    # Abre una ventana para visualizar el Conjunto de Mandelbrot
+    crear_gui_mandelbrot(generar_conjunto_func, contar_puntos_dentro_func, plano_inicial, resolucion_inicial, iteraciones_iniciales)
 
-# Función para abrir una ventana de configuración
 def abrir_koch(generate_koch, calculate_area, calculate_perimeter):
+    # Abre una ventana para visualizar el Copo de Nieve de Koch
     create_gui_Koch(generate_koch, calculate_area, calculate_perimeter)
 
-    
+def pantalla_principal(generar_puntos_sierpinski, calcular_area_sierpinski, N, l, color, A, B, C, generar_conjunto_mandelbrot, contar_puntos_dentro, plano_inicial, resolucion_inicial, iteraciones_iniciales, generate_koch, calculate_area, calculate_perimeter):
+    # Crear la ventana principal
+    ventana_principal = Tk()  # Inicializa la ventana principal
+    ventana_principal.title("Pantalla Principal")  # Título de la ventana
 
-# Función que crea la ventana principal con los botones
-def pantalla_principal(generar_puntos_sierpinski, calcular_area_sierpinski, N, l, color, A, B, C, generar_conjunto_mandelbrot, contar_puntos_dentro, plano_inicial, resolucion_inicial, iteraciones_iniciales,generate_koch, calculate_area, calculate_perimeter):
-    ventana_principal = Tk()
-    ventana_principal.title("Pantalla Principal")
-    
     # Ventana a pantalla completa
-    ventana_principal.attributes('-fullscreen', True)
+    ventana_principal.attributes('-fullscreen', True)  # Configura la ventana a pantalla completa
 
     # Configurar el color de fondo gris oscuro
-    ventana_principal.configure(bg='#2e2e2e')  # Gris oscuro
+    ventana_principal.configure(bg='#2e2e2e')  # Fondo gris oscuro
 
     # Etiqueta de bienvenida
     label_bienvenida = Label(ventana_principal, text="PEI 3 - Bienvenido, a nuestro trabajo", font=("Arial", 14), fg='white', bg='#2e2e2e')
-    label_bienvenida.pack(pady=20)
+    label_bienvenida.pack(pady=20)  # Posiciona la etiqueta con margen vertical
 
     # Segunda etiqueta debajo de la primera
     label_sub_bienvenida = Label(ventana_principal, text="En este programa se estudiarán de forma gráfica algunos de los fractales más conocidos y algunas de sus características así como el perímetro o el área.", font=("Arial", 12), fg='white', bg='#2e2e2e')
-    label_sub_bienvenida.pack(pady=10)
+    label_sub_bienvenida.pack(pady=10)  # Posiciona la etiqueta con margen vertical
 
-    # Quinto botón (ubicado arriba de los otros tres)
+    # Botón para abrir la información sobre fractales
     boton_quinto = Button(ventana_principal, text="Información relativa a los fractales y la motivación de nuestro trabajo", font=("Arial", 14), width=60, fg='black', bg='white', command=abrir_informacion_fractales)
     boton_quinto.pack(pady=10)
 
-    # Etiqueta debajo del quinto botón
+    # Etiqueta instructiva
     label_bajo_quinto = Label(ventana_principal, text="Por favor, escoja uno de los siguientes fractales:", font=("Arial", 12), fg='white', bg='#2e2e2e')
     label_bajo_quinto.pack(pady=10)
 
-    # Crear los otros tres botones
+    # Botones para cada fractal
     boton_sierpinski = Button(ventana_principal, text="Triángulo de Sierpinski", command=lambda: abrir_sierpinski(generar_puntos_sierpinski, calcular_area_sierpinski, N, l, color, A, B, C), font=("Arial", 14), width=20, fg='black', bg='white')
     boton_sierpinski.pack(pady=10)
 
-    boton_info = Button(ventana_principal, text="Conjunto de Mandelbrot", command=lambda:abrir_mandelbrot(generar_conjunto_mandelbrot, contar_puntos_dentro, plano_inicial, resolucion_inicial, iteraciones_iniciales), font=("Arial", 14), width=20, fg='black', bg='white')
+    boton_info = Button(ventana_principal, text="Conjunto de Mandelbrot", command=lambda: abrir_mandelbrot(generar_conjunto_mandelbrot, contar_puntos_dentro, plano_inicial, resolucion_inicial, iteraciones_iniciales), font=("Arial", 14), width=20, fg='black', bg='white')
     boton_info.pack(pady=10)
 
-    boton_configuracion = Button(ventana_principal, text="Copo de nieve de Koch", command=lambda:abrir_koch(generate_koch, calculate_area, calculate_perimeter), font=("Arial", 14), width=20, fg='black', bg='white')
+    boton_configuracion = Button(ventana_principal, text="Copo de nieve de Koch", command=lambda: abrir_koch(generate_koch, calculate_area, calculate_perimeter), font=("Arial", 14), width=20, fg='black', bg='white')
     boton_configuracion.pack(pady=10)
 
-    # Etiquetas encima del botón de cerrar (antes de cerrar la ventana)
-    label_encima_cerrar_1 = Label(ventana_principal, text="Trabajo realizado por: Eduardo Gómez Oliva, no me sé vuestros apellidos ", font=("Arial", 12), fg='white', bg='#2e2e2e')
+    # Etiquetas de crédito
+    label_encima_cerrar_1 = Label(ventana_principal, text="Trabajo realizado por: Eduardo Gómez, Lidia Lázaro, Weiwei Yang, Sandra García", font=("Arial", 12), fg='white', bg='#2e2e2e')
     label_encima_cerrar_1.pack(pady=10)
 
     label_encima_cerrar_2 = Label(ventana_principal, text="Esperemos que te haya gustado", font=("Arial", 12), fg='white', bg='#2e2e2e')
     label_encima_cerrar_2.pack(pady=10)
 
-    # Botón de cerrar (ubicado al final)
+    # Botón para cerrar la ventana principal
     boton_cerrar = Button(ventana_principal, text="Cerrar", command=ventana_principal.destroy, font=("Arial", 14), width=20, fg='black', bg='white')
     boton_cerrar.pack(side='bottom', pady=10)
 
     # Ejecutar la ventana principal
     ventana_principal.mainloop()
+
+    
     
 
 # ======================================================
