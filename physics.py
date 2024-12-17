@@ -126,28 +126,28 @@ def calculate_area_koch(order, scale=1):
 #======================================================================================
 #======================================================================================
 
-# CONJUNTO DE MANDELBROT
-
-# Función para generar el conjunto de Mandelbrot usando NumPy
+# Función para generar una matriz que representa el conjunto de Mandelbrot
 def generar_conjunto_mandelbrot(plano, resolucion, max_iteraciones):
     """
     Genera el conjunto de Mandelbrot utilizando operaciones vectorizadas con NumPy.
     """
-    x_min, x_max, y_min, y_max = plano
-    ancho, alto = resolucion
+    x_min, x_max, y_min, y_max = plano #Especifica los límites del plano complejo como una tupla
+    ancho, alto = resolucion #Número de puntos en cada eje como una tupla
 
     # Creamos las grillas para las coordenadas reales e imaginarias
+    #Linspace genera un arreglo de valores equidistantes entre dos extremos
     x = linspace(x_min, x_max, ancho)
     y = linspace(y_min, y_max, alto)
     X, Y = meshgrid(x, y)  # Matrices de coordenadas
-
+    # Meshgrid convierte dos arreglos unidimensionales en matrices bidimensionales que forman una grilla de coordenadas cartesianas.
     # Inicializamos las matrices
-    c = X + 1j * Y  # Matriz de números complejos
-    z = zeros_like(c, dtype=complex)  # Matriz de iteración
+    c = X + 1j * Y  # Matriz de números complejos combinando X y Y con el operador +1j*
+    z = zeros_like(c, dtype=complex)  # Matriz del tamaño de c, llena de ceros(números complejos), que representa las iteraciones de cada punto.
     mandelbrot_matrix = zeros(c.shape, dtype=int)  # Matriz para almacenar iteraciones
 
     # Vectorizamos el cálculo del escape
-    for i in range(max_iteraciones):
+    for x_i in range(max_iteraciones):
+        #mask: matriz booleana(True o False) que indica qué elementos cumplen la condición
         mask = abs(z) <= 2  # Identificamos puntos que aún no escapan
         z[mask] = z[mask] ** 2 + c[mask]  # Aplicamos la fórmula solo a puntos dentro del límite
         mandelbrot_matrix[mask] += 1  # Incrementamos las iteraciones
@@ -162,9 +162,4 @@ def contar_puntos_dentro(mandelbrot_matrix, max_iteraciones):
     Cuenta los puntos que permanecen dentro del conjunto de Mandelbrot.
     """
     return sum(mandelbrot_matrix == max_iteraciones)
-
-
-##########################################################################################
-##########################################################################################
-##########################################################################################
 
