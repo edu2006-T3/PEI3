@@ -3,7 +3,7 @@ from tkinter import messagebox, Frame, Label, Button, Tk, Scale, Entry, Toplevel
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 import numpy as np
-from PIL import Image, ImageTk
+
 
 # # ======================================================================================================================================================================
 # # ======================================================================================================================================================================
@@ -434,16 +434,6 @@ def gui_información_relativa_fractales():
     etiqueta = Label(ventana, text=informacion, font=("Arial", 15), bg="#2E2E2E", fg="white", justify="left", padx=20, pady=20)
     etiqueta.pack(fill=BOTH, expand=True)
 
-    #Cargar imagen usando pillow
-    try:
-        ruta_imagen = r"C:\\Users\\lidia\\OneDrive\\Escritorio\\GIA UPM\\Informática\\PEI3-main\\mandelbroot.jpg"
-        imagen = Image.open(ruta_imagen)
-        imagen = imagen.resize(((50,50)), Image.ANTIALIAS)
-        imagen_tk = ImageTk.PhotoImage(imagen)
-    except Exception as e:
-        print(f"No se puede cargar la imagen: {e}")
-        etiqueta_error = Label(ventana, text="No se pudo cargar la imagen", font=("Arial", 15), bg="#2E2E2E", fg="red")
-        etiqueta_error.pack()
     # Botón "Volver" en la parte inferior de la ventana
     boton_volver = Button(ventana, text="Volver", command=ventana.destroy, font=("Arial", 14), width=20, fg='black', bg='white')
     boton_volver.pack(side='bottom', pady=20)
