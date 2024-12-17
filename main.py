@@ -42,4 +42,3 @@ C = array([escala / 2, altura])  # Punto superior
 # #=======================================================================================
 
 pantalla_principal(generar_puntos_sierpinski, calcular_area_sierpinski, N, l, color, A, B, C, generar_conjunto_mandelbrot, contar_puntos_dentro, plano_inicial, resolucion_inicial, iteraciones_iniciales,generate_koch_snowflake, calculate_area_koch, calculate_perimeter_koch)
-
