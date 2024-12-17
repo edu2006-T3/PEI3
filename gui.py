@@ -162,6 +162,8 @@ def gui_triangulo_sierpinski(f, g, N, l, color, A, B, C):   # ARGUMENTOS: funci�
 
     # Ejecutar la ventana principal
     ventana.mainloop()
+
+
 # # ======================================================================================================================================================================
 # # ======================================================================================================================================================================
 
@@ -383,6 +385,7 @@ def crear_gui_mandelbrot(generar_conjunto_func, contar_puntos_dentro_func, plano
 
     # Ejecutar la ventana
     ventana.mainloop()
+
 # # ======================================================================================================================================================================
 # # ======================================================================================================================================================================
 
@@ -445,13 +448,13 @@ def abrir_mandelbrot(generar_conjunto_func, contar_puntos_dentro_func, plano_ini
     crear_gui_mandelbrot (generar_conjunto_func, contar_puntos_dentro_func, plano_inicial, resolucion_inicial, iteraciones_iniciales)
 
 # Función para abrir una ventana de configuración
-def abrir_koch():
-    abrir_koch()
+def abrir_koch(generate_koch, calculate_area, calculate_perimeter):
+    create_gui_Koch(generate_koch, calculate_area, calculate_perimeter)
 
     
 
 # Función que crea la ventana principal con los botones
-def pantalla_principal(generar_puntos_sierpinski, calcular_area_sierpinski, N, l, color, A, B, C, generar_conjunto_mandelbrot, contar_puntos_dentro, plano_inicial, resolucion_inicial, iteraciones_iniciales):
+def pantalla_principal(generar_puntos_sierpinski, calcular_area_sierpinski, N, l, color, A, B, C, generar_conjunto_mandelbrot, contar_puntos_dentro, plano_inicial, resolucion_inicial, iteraciones_iniciales,generate_koch, calculate_area, calculate_perimeter):
     ventana_principal = Tk()
     ventana_principal.title("Pantalla Principal")
     
@@ -484,7 +487,7 @@ def pantalla_principal(generar_puntos_sierpinski, calcular_area_sierpinski, N, l
     boton_info = Button(ventana_principal, text="Conjunto de Mandelbrot", command=lambda:abrir_mandelbrot(generar_conjunto_mandelbrot, contar_puntos_dentro, plano_inicial, resolucion_inicial, iteraciones_iniciales), font=("Arial", 14), width=20, fg='black', bg='white')
     boton_info.pack(pady=10)
 
-    boton_configuracion = Button(ventana_principal, text="Copo de nieve de Koch", command=abrir_configuracion, font=("Arial", 14), width=20, fg='black', bg='white')
+    boton_configuracion = Button(ventana_principal, text="Copo de nieve de Koch", command=lambda:abrir_koch(generate_koch, calculate_area, calculate_perimeter), font=("Arial", 14), width=20, fg='black', bg='white')
     boton_configuracion.pack(pady=10)
 
     # Etiquetas encima del botón de cerrar (antes de cerrar la ventana)
@@ -500,4 +503,11 @@ def pantalla_principal(generar_puntos_sierpinski, calcular_area_sierpinski, N, l
 
     # Ejecutar la ventana principal
     ventana_principal.mainloop()
+    
+
+# ======================================================
+# ======================================================
+# ======================================================
+# ======================================================
+
     
