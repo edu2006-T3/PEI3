@@ -256,11 +256,13 @@ def create_gui_Koch(generate_koch, calculate_area, calculate_perimeter):
 
 # GUI CONJUNTO DE MANDELBROT
 
-def crear_gui_mandelbrot(generar_conjunto_func, contar_puntos_dentro_func, plano_inicial, resolucion_inicial, iteraciones_iniciales):
+#Función principal del programa, se definen los parámetros "generar conjunto", la función que genera el conjunto de Mandelbrot
+ 
+def crear_gui_mandelbrot(generar_conjunto_func, contar_puntos_dentro_func, plano_inicial, resolucion_inicial, iteraciones_iniciales):   
     # Variables locales sincronizadas con main.py
-    x_min, x_max, y_min, y_max = plano_inicial
-    resolucion = resolucion_inicial
-    max_iteraciones = iteraciones_iniciales
+    x_min, x_max, y_min, y_max = plano_inicial  #Conjunto de valores iniciales para el rango del plano
+    resolucion = resolucion_inicial  #La resolución inicial para el rango del plano 
+    max_iteraciones = iteraciones_iniciales  
     color_mandelbrot = 'inferno'
 
     def actualizar_mandelbrot(figura, canvas, label_area):
@@ -276,40 +278,40 @@ def crear_gui_mandelbrot(generar_conjunto_func, contar_puntos_dentro_func, plano
 
         # Dibujar el conjunto de Mandelbrot con el color seleccionado
         ax = figura.add_subplot(111)
-        ax.imshow(mandelbrot_matrix, cmap=color_mandelbrot, extent=(x_min, x_max, y_min, y_max))
-        ax.set_title(f'Conjunto de Mandelbrot (Iteraciones: {max_iteraciones})')
-        ax.set_aspect('equal')
-        ax.axis('off')
-        canvas.draw()
+        ax.imshow(mandelbrot_matrix, cmap=color_mandelbrot, extent=(x_min, x_max, y_min, y_max))  #Dibujar la nueva imagen del conjunto, con el color seleccionado y el rango definido
+        ax.set_title(f'Conjunto de Mandelbrot (Iteraciones: {max_iteraciones})')  #Función para incluir el número de iteraciones actuales en el título del gráfico
+        ax.set_aspect('equal')  #Configura la relación de aspecto del gráfico, asegura que el conjunto se vea correctamente sin distorsión
+        ax.axis('off') #Esta línea oculta los ejes del gráfico, mostrando solo la imagen del conjunto de Mandelbrot 
+        canvas.draw()  #Actualizar la visualización en la interfaz gráfica
 
-    def actualizar_gui(label_iteraciones, figura, canvas, label_area):
+    def actualizar_gui(label_iteraciones, figura, canvas, label_area):  #Función que actualiza los elementos de la interfaz, como etiquetas y el gráfico
         label_iteraciones.config(text=f"Iteraciones: {max_iteraciones}")
-        actualizar_mandelbrot(figura, canvas, label_area)
+        actualizar_mandelbrot(figura, canvas, label_area)   #Se muestra el gráfico con los valores actuales
 
-    def sumar_iteracion(label_iteraciones, figura, canvas, label_area):
-        nonlocal max_iteraciones
+    def sumar_iteracion(label_iteraciones, figura, canvas, label_area):  #Función que aumenta el número de iteraciones y actualiza la gui con el nuevo valor de iteraciones
+        nonlocal max_iteraciones  #Sirve para decirle a python que max_ite no es una variable local
         max_iteraciones += 1
-        actualizar_gui(label_iteraciones, figura, canvas, label_area)
+        actualizar_gui(label_iteraciones, figura, canvas, label_area)   #Se actualiza la gui con el nuevo valor de iteraciones
 
-    def restar_iteracion(label_iteraciones, figura, canvas, label_area):
+    def restar_iteracion(label_iteraciones, figura, canvas, label_area): #Disminuye el número de iteraciones pero no deja que sea negativo
         nonlocal max_iteraciones
         if max_iteraciones > 0:
             max_iteraciones -= 1
-        actualizar_gui(label_iteraciones, figura, canvas, label_area)
+        actualizar_gui(label_iteraciones, figura, canvas, label_area)  #Se actualiza la gui con el nuevo valor de iteraciones
 
-    def cambiar_color(valor):
+    def cambiar_color(valor):   #Permite cambiar el esquema de colores para el conjunto de Mandelbrot
         nonlocal color_mandelbrot
         color_mandelbrot = valor
-        actualizar_gui(label_iteraciones, figura, canvas, label_area)
+        actualizar_gui(label_iteraciones, figura, canvas, label_area)  #Actualiza la interfaz de nuevo
 
-    def cambiar_rango(entry_x_min, entry_x_max, entry_y_min, entry_y_max, label_area, figura, canvas):
+    def cambiar_rango(entry_x_min, entry_x_max, entry_y_min, entry_y_max, label_area, figura, canvas):   #Obtiene nuevos valores de rango de las entradas de texto y si los valores de entrada no son válidos muestra un mensaje de error
         nonlocal x_min, x_max, y_min, y_max
         try:
             x_min = float(entry_x_min.get())
             x_max = float(entry_x_max.get())
             y_min = float(entry_y_min.get())
             y_max = float(entry_y_max.get())
-            actualizar_gui(label_iteraciones, figura, canvas, label_area)
+            actualizar_gui(label_iteraciones, figura, canvas, label_area)   #Se vuelve a dibujar el conjunto con el nuevo rango
         except ValueError:
             messagebox.showerror("Valor Inválido", "Los valores de rango deben ser números válidos.")
 
@@ -323,11 +325,11 @@ def crear_gui_mandelbrot(generar_conjunto_func, contar_puntos_dentro_func, plano
     # Cambiar el fondo de la ventana a gris oscuro
     ventana.config(bg='#2e2e2e')
 
-    # Etiqueta para iteraciones
+    # Etiqueta que muestra cuántas iteraciones se están dando
     label_iteraciones = Label(ventana, text=f"Iteraciones: {max_iteraciones}", font=("Arial", 14), bg='#2e2e2e', fg='white')
     label_iteraciones.pack(pady=10)
 
-    # Botones para iteraciones
+    # Botones para aumentar o disminuir iteraciones
     frame_iteraciones = Frame(ventana, bg='#2e2e2e')
     frame_iteraciones.pack()
 
@@ -342,19 +344,19 @@ def crear_gui_mandelbrot(generar_conjunto_func, contar_puntos_dentro_func, plano
     frame_rango.pack(pady=10)
 
     label_x_min = Label(frame_rango, text="X min:", font=("Arial", 12), bg='#2e2e2e', fg='white')
-    label_x_min.grid(row=0, column=0)
-    entry_x_min = Entry(frame_rango, font=("Arial", 12))
-    entry_x_min.insert(0, f"{x_min}")
-    entry_x_min.grid(row=0, column=1)
+    label_x_min.grid(row=0, column=0)   #Coloca los widgets en una cuadricula, lo coloca en la fila(row) 0 columna 0 de la cuadricula dentro de frame_rango
+    entry_x_min = Entry(frame_rango, font=("Arial", 12))  #Se crea un campo de entrada donde el usuario puede escribir en ella
+    entry_x_min.insert(0, f"{x_min}")  #Se establece un valor predeterminado en el campo de entrada "x min"
+    entry_x_min.grid(row=0, column=1)  #Posicionamiento del campo de entrada dentro de frame_rango, justo al lado de la etiqueta "x_min"
 
-    label_x_max = Label(frame_rango, text="X max:", font=("Arial", 12), bg='#2e2e2e', fg='white')
+    label_x_max = Label(frame_rango, text="X max:", font=("Arial", 12), bg='#2e2e2e', fg='white')  #Se hace lo mismo con la etiqueta de x_max
     label_x_max.grid(row=1, column=0)
     entry_x_max = Entry(frame_rango, font=("Arial", 12))
     entry_x_max.insert(0, f"{x_max}")
     entry_x_max.grid(row=1, column=1)
 
     label_y_min = Label(frame_rango, text="Y min:", font=("Arial", 12), bg='#2e2e2e', fg='white')
-    label_y_min.grid(row=2, column=0)
+    label_y_min.grid(row=2, column=0)   
     entry_y_min = Entry(frame_rango, font=("Arial", 12))
     entry_y_min.insert(0, f"{y_min}")
     entry_y_min.grid(row=2, column=1)
