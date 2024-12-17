@@ -436,7 +436,7 @@ def gui_información_relativa_fractales():
 
     #Cargar imagen usando pillow
     try:
-        ruta_imagen = "C:\\Users\\lidia\\OneDrive\\Escritorio\\GIA UPM\\Informática\\PEI3-main\\mandelbroot.jpg"
+        ruta_imagen = r"C:\\Users\\lidia\\OneDrive\\Escritorio\\GIA UPM\\Informática\\PEI3-main\\mandelbroot.jpg"
         imagen = Image.open(ruta_imagen)
         imagen = imagen.resize(((50,50)), Image.ANTIALIAS)
         imagen_tk = ImageTk.PhotoImage(imagen)
@@ -525,6 +525,6 @@ def pantalla_principal(generar_puntos_sierpinski, calcular_area_sierpinski, N, l
 # ======================================================
 # ======================================================
 # ======================================================
-# ======================================================
+
 
     
