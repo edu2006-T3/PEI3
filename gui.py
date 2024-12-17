@@ -445,13 +445,8 @@ def abrir_mandelbrot(generar_conjunto_func, contar_puntos_dentro_func, plano_ini
     crear_gui_mandelbrot (generar_conjunto_func, contar_puntos_dentro_func, plano_inicial, resolucion_inicial, iteraciones_iniciales)
 
 # Función para abrir una ventana de configuración
-def abrir_configuracion():
-    ventana_configuracion = Toplevel()
-    ventana_configuracion.title("Configuración")
-    label_config = Label(ventana_configuracion, text="Aquí puedes configurar los parámetros.", font=("Arial", 12))
-    label_config.pack(pady=20)
-    boton_cerrar = Button(ventana_configuracion, text="Cerrar", command=ventana_configuracion.destroy, font=("Arial", 12))
-    boton_cerrar.pack(pady=10)
+def abrir_koch():
+    abrir_koch()
 
     
 
