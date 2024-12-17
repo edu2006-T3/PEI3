@@ -294,11 +294,6 @@ def crear_gui_mandelbrot(generar_conjunto_func, contar_puntos_dentro_func, plano
             max_iteraciones -= 1
         actualizar_gui(label_iteraciones, figura, canvas, label_area)  #Se actualiza la gui con el nuevo valor de iteraciones
 
-    def cambiar_color(valor):   #Permite cambiar el esquema de colores para el conjunto de Mandelbrot
-        nonlocal color_mandelbrot
-        color_mandelbrot = valor
-        actualizar_gui(label_iteraciones, figura, canvas, label_area)  #Actualiza la interfaz de nuevo
-
     def cambiar_rango(entry_x_min, entry_x_max, entry_y_min, entry_y_max, label_area, figura, canvas):   #Obtiene nuevos valores de rango de las entradas de texto y si los valores de entrada no son válidos muestra un mensaje de error
         nonlocal x_min, x_max, y_min, y_max
         try:
