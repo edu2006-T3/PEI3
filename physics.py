@@ -11,6 +11,7 @@ from numpy import linspace, meshgrid, zeros_like, abs, zeros, sum
 
 def generar_puntos_sierpinski(A, B, C, N):        # A, B y C son los vértices iniciales
                                                   # N es el número de iteraciones
+
     P = []       # Crea una lista donde se meten todos los puntos
 
     def sierpinski_recursivo(A, B, C, n):       # n es el nivel de generación, es decir, el número de iteraciones
@@ -31,18 +32,6 @@ def generar_puntos_sierpinski(A, B, C, N):        # A, B y C son los vértices i
 
 #======================================================================================
 
-# Función para calcular el área del fractal
-
-# def calcular_area_sierpinski(l, N):             # l es la longitud del lado inicial del triángulo
-
-#     ai = (sqrt(3) / 4) * l**2              # Área inicial del triángulo = Fórmula del área de un triángulo equilátero
-    
-#     beta = (3 / 4)        # Factor de conservación de área en cada iteración, en cada una se reduce un cuarto del área
-    
-#     an = ai * (beta ** N)   # Área total después de las n iteraciones
-    
-#     return an
-
 def calcular_area_sierpinski(l, N):
 
     return (sqrt(3) / 4) * l**2 * (3 / 4) ** N        # Función optimizada
@@ -53,8 +42,7 @@ def calcular_area_sierpinski(l, N):
 
 #COPO DE NIEVE DE KOCH
 
-from numpy import pi, sin, cos, dot, array, sqrt
-from linalg import norm
+import numpy as np
 
 def generate_koch_snowflake(order, scale=1):
     """
@@ -69,12 +57,12 @@ def generate_koch_snowflake(order, scale=1):
         p5 = p2 - delta
 
         # Calculate the peak point of the triangle
-        angle = pi / 3  # 60 degrees
-        rotation_matrix = array([
-            [cos(angle), -sin(angle)],
-            [sin(angle), cos(angle)]
+        angle = np.pi / 3  # 60 degrees
+        rotation_matrix = np.array([
+            [np.cos(angle), -np.sin(angle)],
+            [np.sin(angle), np.cos(angle)]
         ])
-        peak = p3 + dot(rotation_matrix, delta)
+        peak = p3 + np.dot(rotation_matrix, delta)
 
         # Recursively process each segment
         return (
@@ -85,9 +73,9 @@ def generate_koch_snowflake(order, scale=1):
         )
 
     # Define the initial triangle
-    p1 = array([0, 0])
-    p2 = array([scale, 0])
-    p3 = array([scale / 2, scale * np.sqrt(3) / 2])
+    p1 = np.array([0, 0])
+    p2 = np.array([scale, 0])
+    p3 = np.array([scale / 2, scale * np.sqrt(3) / 2])
     triangle = [p1, p2, p3, p1]
 
     # Generate Koch snowflake by applying the recursive function to each side
@@ -104,7 +92,7 @@ def calculate_perimeter_koch(snowflake_points):
     """
     perimeter = 0
     for i in range(len(snowflake_points) - 1):
-        perimeter += linalg.norm(snowflake_points[i + 1] - snowflake_points[i])
+        perimeter += np.linalg.norm(snowflake_points[i + 1] - snowflake_points[i])
     return perimeter
 
 def calculate_area_koch(order, scale=1):
@@ -118,7 +106,7 @@ def calculate_area_koch(order, scale=1):
     for i in range(1, order + 1):
         num_new_triangles = 3 * (4 ** (i - 1))
         side_length = scale / (3 ** i)
-        triangle_area = (sqrt(3) / 4) * side_length ** 2
+        triangle_area = (np.sqrt(3) / 4) * side_length ** 2
         added_area += num_new_triangles * triangle_area
 
     return base_area + added_area
@@ -129,9 +117,7 @@ def calculate_area_koch(order, scale=1):
 
 # Función para generar una matriz que representa el conjunto de Mandelbrot
 def generar_conjunto_mandelbrot(plano, resolucion, max_iteraciones):
-    """
-    Genera el conjunto de Mandelbrot utilizando operaciones vectorizadas con NumPy.
-    """
+   
     x_min, x_max, y_min, y_max = plano #Especifica los límites del plano complejo como una tupla
     ancho, alto = resolucion #Número de puntos en cada eje como una tupla
 
@@ -159,8 +145,11 @@ def generar_conjunto_mandelbrot(plano, resolucion, max_iteraciones):
 
 # Función para contar los puntos dentro del conjunto de Mandelbrot
 def contar_puntos_dentro(mandelbrot_matrix, max_iteraciones):
-    """
-    Cuenta los puntos que permanecen dentro del conjunto de Mandelbrot.
-    """
+    
     return sum(mandelbrot_matrix == max_iteraciones)
+
+
+##########################################################################################
+##########################################################################################
+##########################################################################################
 
