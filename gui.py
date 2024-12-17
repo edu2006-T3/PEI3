@@ -3,6 +3,7 @@ from tkinter import messagebox, Frame, Label, Button, Tk, Scale, Entry, Toplevel
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 import numpy as np
+from PIL import Image, ImageTk
 
 # # ======================================================================================================================================================================
 # # ======================================================================================================================================================================
@@ -208,7 +209,9 @@ def create_gui_Koch(generate_koch, calculate_area, calculate_perimeter):
     # Create the main window
     root = tk.Tk()
     root.title("Generador del Copo de Nieve de Koch")
+    root.attributes('-fullscreen', True)
     root.geometry("800x600")
+    root.configure(bg='#2e2e2e')
 
     # Input variables
     iterations_var = tk.StringVar(value="3")
@@ -240,6 +243,9 @@ def create_gui_Koch(generate_koch, calculate_area, calculate_perimeter):
     figure, ax = plt.subplots(figsize=(6, 6))
     canvas = FigureCanvasTkAgg(figure, master=root)
     canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
+
+    boton_cerrar = Button(root, text="Volver", command=root.destroy, font=("Arial", 14), width=20, fg='black', bg='white')
+    boton_cerrar.pack(side='bottom', pady=20)
 
     # Start the GUI loop
     root.mainloop()
@@ -425,9 +431,19 @@ def gui_información_relativa_fractales():
     aplicaciones, además de fortalecer las habilidades en programación y diseño de interfaces gráficas.
     """
 
-    etiqueta = Label(ventana, text=informacion, font=("Arial", 12), bg="#2E2E2E", fg="white", justify="left", padx=20, pady=20)
+    etiqueta = Label(ventana, text=informacion, font=("Arial", 15), bg="#2E2E2E", fg="white", justify="left", padx=20, pady=20)
     etiqueta.pack(fill=BOTH, expand=True)
 
+    #Cargar imagen usando pillow
+    try:
+        ruta_imagen = "C:\\Users\\lidia\\OneDrive\\Escritorio\\GIA UPM\\Informática\\PEI3-main\\mandelbroot.jpg"
+        imagen = Image.open(ruta_imagen)
+        imagen = imagen.resize(((50,50)), Image.ANTIALIAS)
+        imagen_tk = ImageTk.PhotoImage(imagen)
+    except Exception as e:
+        print(f"No se puede cargar la imagen: {e}")
+        etiqueta_error = Label(ventana, text="No se pudo cargar la imagen", font=("Arial", 15), bg="#2E2E2E", fg="red")
+        etiqueta_error.pack()
     # Botón "Volver" en la parte inferior de la ventana
     boton_volver = Button(ventana, text="Volver", command=ventana.destroy, font=("Arial", 14), width=20, fg='black', bg='white')
     boton_volver.pack(side='bottom', pady=20)
@@ -505,6 +521,7 @@ def pantalla_principal(generar_puntos_sierpinski, calcular_area_sierpinski, N, l
     ventana_principal.mainloop()
     
 
+# ======================================================
 # ======================================================
 # ======================================================
 # ======================================================
