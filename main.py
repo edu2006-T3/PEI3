@@ -35,10 +35,15 @@ color_fractal = 'blue'  # Color del fractal
 # GENERACIÓN DEL TRIÁNGULO BASE
 # Coordenadas iniciales del triángulo equilátero que define la base del copo
 altura = (sqrt(3) / 2) * escala
-A = array([0, 0])
-B = array([escala, 0])  # Lado horizontal del triángulo
-C = array([escala / 2, altura])  # Punto superior
+A1 = array([0, 0])
+B1 = array([escala, 0])  # Lado horizontal del triángulo
+C1 = array([escala / 2, altura])  # Punto superior
 
 # #=======================================================================================
 
 pantalla_principal(generar_puntos_sierpinski, calcular_area_sierpinski, N, l, color, A, B, C, generar_conjunto_mandelbrot, contar_puntos_dentro, plano_inicial, resolucion_inicial, iteraciones_iniciales,generate_koch_snowflake, calculate_area_koch, calculate_perimeter_koch)
+
+
+
+
+
