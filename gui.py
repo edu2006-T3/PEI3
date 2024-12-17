@@ -1,9 +1,6 @@
-import tkinter as tk
 from tkinter import messagebox, Frame, Label, Button, Tk, Scale, Entry, Toplevel, BOTH
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
-import numpy as np
-
 
 # # ======================================================================================================================================================================
 # # ======================================================================================================================================================================
@@ -170,6 +167,11 @@ def gui_triangulo_sierpinski(f, g, N, l, color, A, B, C):   # ARGUMENTOS: funci√
 
 # #GUI DE COPO DE NIEVE DE KOCH
 
+import tkinter as tk
+from tkinter import ttk
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import matplotlib.pyplot as plt
+
 def create_gui_Koch(generate_koch, calculate_area, calculate_perimeter):
     """
     Create the GUI for interacting with the Koch snowflake generator.
@@ -201,10 +203,11 @@ def create_gui_Koch(generate_koch, calculate_area, calculate_perimeter):
         ax.set_title(f"Copo de Nieve de Koch (Orden {order})")
         canvas.draw()
 
-    # Create a subwindow instead of a main Tk window
-    root = Toplevel()
+    # Create the main window
+    root = tk.Tk()
     root.title("Generador del Copo de Nieve de Koch")
     root.attributes('-fullscreen', True)
+    root.geometry("800x600")
     root.configure(bg='#2e2e2e')
 
     # Input variables
@@ -214,31 +217,30 @@ def create_gui_Koch(generate_koch, calculate_area, calculate_perimeter):
     area_var = tk.StringVar(value="√Årea: N/A")
 
     # Create input frame
-    input_frame = Frame(root)
+    input_frame = ttk.Frame(root)
     input_frame.pack(side=tk.TOP, fill=tk.X, padx=10, pady=10)
 
-    Label(input_frame, text="Iteraciones:").pack(side=tk.LEFT, padx=5)
-    Entry(input_frame, textvariable=iterations_var, width=5).pack(side=tk.LEFT, padx=5)
+    ttk.Label(input_frame, text="Iteraciones:").pack(side=tk.LEFT, padx=5)
+    ttk.Entry(input_frame, textvariable=iterations_var, width=5).pack(side=tk.LEFT, padx=5)
 
-    Label(input_frame, text="Escala:").pack(side=tk.LEFT, padx=5)
-    Entry(input_frame, textvariable=scale_var, width=5).pack(side=tk.LEFT, padx=5)
+    ttk.Label(input_frame, text="Escala:").pack(side=tk.LEFT, padx=5)
+    ttk.Entry(input_frame, textvariable=scale_var, width=5).pack(side=tk.LEFT, padx=5)
 
-    generate_button = Button(input_frame, text="Generar", command=update_plot)
+    generate_button = ttk.Button(input_frame, text="Generar", command=update_plot)
     generate_button.pack(side=tk.LEFT, padx=10)
 
-    error_label = Label(input_frame, text="", foreground="red")
+    error_label = ttk.Label(input_frame, text="", foreground="red")
     error_label.pack(side=tk.LEFT, padx=10)
 
     # Display perimeter and area
-    Label(root, textvariable=perimeter_var, font=("Arial", 12), background="#2e2e2e", foreground="white").pack(pady=5)
-    Label(root, textvariable=area_var, font=("Arial", 12), background="#2e2e2e", foreground="white").pack(pady=5)
+    ttk.Label(root, textvariable=perimeter_var).pack(pady=5)
+    ttk.Label(root, textvariable=area_var).pack(pady=5)
 
     # Create plot frame
     figure, ax = plt.subplots(figsize=(6, 6))
     canvas = FigureCanvasTkAgg(figure, master=root)
     canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
 
-    # Close button
     boton_cerrar = Button(root, text="Volver", command=root.destroy, font=("Arial", 14), width=20, fg='black', bg='white')
     boton_cerrar.pack(side='bottom', pady=20)
 
@@ -503,7 +505,6 @@ def pantalla_principal(generar_puntos_sierpinski, calcular_area_sierpinski, N, l
     ventana_principal.mainloop()
 
     
-    
 
 # ======================================================
 # ======================================================
@@ -511,4 +512,4 @@ def pantalla_principal(generar_puntos_sierpinski, calcular_area_sierpinski, N, l
 # ======================================================
 
 
-    
+
