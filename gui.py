@@ -7,16 +7,16 @@ from matplotlib.figure import Figure
 
 # Función para crear la GUI para el triángulo de Sierpinski
 
-def gui_triangulo_sierpinski(f, g, N, l, color, A, B, C):   # ARGUMENTOS: función que cálcula los vértices, función que calcula el área en la n iteración, longitud de lado, color del triángulo, y vertices iniciales
+def gui_triangulo_sierpinski(f, g, N, l, color, A, B, C):   # ARGUMENTOS: función que cálcula los vértices, función que calcula el área en la n iteración, longitud de lado, color del triángulo, y vértices iniciales
   
     def actualizar_triangulo(figura, canvas, label_a):    #  Actualiza el triángulo en el gráfico y muestra el área actual.
-                                                             # figura = donde se dibujará el lienzo; canvas lienzo donde se mostrará la figura; label_a = eiqueta que muestra el área
+                                                             # figura = donde se dibujará el lienzo; canvas = lienzo donde se mostrará la figura; label_a = eiqueta que muestra el área
         
         # Llamamos a la función generadora de puntos de Sierpinski
         P = f(A, B, C, N)              # P = lista de vértices
 
         # Calcular el área
-        a = g(l, N)                                        # a = área en la n iteració
+        a = g(l, N)                                        # a = área en la n iteración
         label_a.config(text=f"Área: {a:.5f}")              # muestra el área en la etiqueta con una precisión de 5 decimales 
 
         # Limpiar el gráfico anterior
@@ -165,100 +165,98 @@ def gui_triangulo_sierpinski(f, g, N, l, color, A, B, C):   # ARGUMENTOS: funci�
 # # ======================================================================================================================================================================
 # # ======================================================================================================================================================================
 
-# #GUI DE COPO DE NIEVE DE KOCH
+# GUI COPO DE KOCH
 
-import tkinter as tk
-from tkinter import ttk
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-import matplotlib.pyplot as plt
+# Función para crear la GUI para el copo de nieve de Koch
+def gui_copo_koch(generar_segmentos_koch, calcular_longitud_koch, iteraciones_koch, longitud_inicial, color_koch, extremo1, extremo2):
 
-def create_gui_Koch(generate_koch, calculate_area, calculate_perimeter):
-    """
-    Create the GUI for interacting with the Koch snowflake generator.
-    """
-    def update_plot():
-        # Get user input
-        try:
-            order = int(iterations_var.get())
-            scale = float(scale_var.get())
-        except ValueError:
-            error_label.config(text="Por favor, ingresa valores válidos.")
-            return
+    def actualizar_copo(figura, canvas, label_longitud):
+        # Genera y dibuja el copo de Koch
+        segmentos = generar_segmentos_koch(extremo1, extremo2, iteraciones_koch)  # Genera los segmentos del fractal
+        longitud_total = calcular_longitud_koch(longitud_inicial, iteraciones_koch)  # Calcula la longitud total
+        label_longitud.config(text=f"Longitud Total: {longitud_total:.5f}")
 
-        # Generate snowflake points
-        points = generate_koch(order, scale)
+        # Limpiar el gráfico anterior
+        figura.clear()
 
-        # Calculate perimeter and area
-        perimeter = calculate_perimeter(points)
-        area = calculate_area(order, scale)
-
-        # Update labels
-        perimeter_var.set(f"Perímetro: {perimeter:.2f}")
-        area_var.set(f"Área: {area:.2f}")
-
-        # Plot the snowflake
-        ax.clear()
-        ax.plot(points[:, 0], points[:, 1], color='blue', lw=1)
-        ax.axis('equal')
-        ax.set_title(f"Copo de Nieve de Koch (Orden {order})")
+        # Dibujar los segmentos
+        ax = figura.add_subplot(111)
+        for segmento in segmentos:
+            x = [segmento[0][0], segmento[1][0]]
+            y = [segmento[0][1], segmento[1][1]]
+            ax.plot(x, y, color=color_koch, linewidth=1.0)
+        
+        ax.set_aspect('equal')
+        ax.axis('off')
         canvas.draw()
 
-    # Create the main window
-    root = tk.Tk()
-    root.title("Generador del Copo de Nieve de Koch")
-    root.attributes('-fullscreen', True)
-    root.geometry("800x600")
-    root.configure(bg='#2e2e2e')
+    def actualizar_gui(label_iteraciones, label_longitud_inicial, figura, canvas, label_longitud):
+        label_iteraciones.config(text=f"Iteraciones: {iteraciones_koch}")
+        label_longitud_inicial.config(text=f"Longitud Inicial: {longitud_inicial:.2f}")
+        actualizar_copo(figura, canvas, label_longitud)
 
-    # Input variables
-    iterations_var = tk.StringVar(value="3")
-    scale_var = tk.StringVar(value="5")
-    perimeter_var = tk.StringVar(value="Perímetro: N/A")
-    area_var = tk.StringVar(value="Área: N/A")
+    def sumar_iteraciones(label_iteraciones, label_longitud_inicial, figura, canvas, label_longitud):
+        nonlocal iteraciones_koch
+        iteraciones_koch += 1
+        actualizar_gui(label_iteraciones, label_longitud_inicial, figura, canvas, label_longitud)
 
-    # Create input frame
-    input_frame = ttk.Frame(root)
-    input_frame.pack(side=tk.TOP, fill=tk.X, padx=10, pady=10)
+    def restar_iteraciones(label_iteraciones, label_longitud_inicial, figura, canvas, label_longitud):
+        nonlocal iteraciones_koch
+        if iteraciones_koch > 0:
+            iteraciones_koch -= 1
+        actualizar_gui(label_iteraciones, label_longitud_inicial, figura, canvas, label_longitud)
 
-    ttk.Label(input_frame, text="Iteraciones:").pack(side=tk.LEFT, padx=5)
-    ttk.Entry(input_frame, textvariable=iterations_var, width=5).pack(side=tk.LEFT, padx=5)
+    # Crear la ventana principal
+    ventana = Tk()
+    ventana.title("Copo de Nieve de Koch")
+    ventana.attributes('-fullscreen', True)
+    ventana.configure(bg='#2e2e2e')
 
-    ttk.Label(input_frame, text="Escala:").pack(side=tk.LEFT, padx=5)
-    ttk.Entry(input_frame, textvariable=scale_var, width=5).pack(side=tk.LEFT, padx=5)
+    # Etiqueta y botones para iteraciones
+    label_iteraciones = Label(ventana, text=f"Iteraciones: {iteraciones_koch}", font=("Arial", 14), fg='white', bg='#2e2e2e')
+    label_iteraciones.pack(pady=10)
 
-    generate_button = ttk.Button(input_frame, text="Generar", command=update_plot)
-    generate_button.pack(side=tk.LEFT, padx=10)
+    frame_iteraciones = Frame(ventana, bg='#2e2e2e')
+    frame_iteraciones.pack()
+    Button(frame_iteraciones, text="+", command=lambda: sumar_iteraciones(label_iteraciones, label_longitud_inicial, figura, canvas, label_longitud), width=4, height=1).grid(row=0, column=0, padx=10)
+    Button(frame_iteraciones, text="-", command=lambda: restar_iteraciones(label_iteraciones, label_longitud_inicial, figura, canvas, label_longitud), width=4, height=1).grid(row=0, column=1, padx=10)
 
-    error_label = ttk.Label(input_frame, text="", foreground="red")
-    error_label.pack(side=tk.LEFT, padx=10)
+    # Etiqueta y entrada para longitud inicial
+    frame_longitud_inicial = Frame(ventana, bg='#2e2e2e')
+    frame_longitud_inicial.pack(pady=10)
+    label_longitud_inicial = Label(frame_longitud_inicial, text=f"Longitud Inicial: {longitud_inicial:.2f}", font=("Arial", 14), fg='white', bg='#2e2e2e')
+    label_longitud_inicial.grid(row=0, column=0)
 
-    # Display perimeter and area
-    ttk.Label(root, textvariable=perimeter_var).pack(pady=5)
-    ttk.Label(root, textvariable=area_var).pack(pady=5)
+    # Etiqueta para longitud total
+    label_longitud = Label(ventana, text="Longitud Total: 0.00000", font=("Arial", 14), fg='white', bg='#2e2e2e')
+    label_longitud.pack(pady=10)
 
-    # Create plot frame
-    figure, ax = plt.subplots(figsize=(6, 6))
-    canvas = FigureCanvasTkAgg(figure, master=root)
-    canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
+    # Espacio para el gráfico
+    frame_grafico = Frame(ventana, bg='#2e2e2e')
+    frame_grafico.pack()
+    figura = Figure(figsize=(5, 5), dpi=100)
+    canvas = FigureCanvasTkAgg(figura, master=frame_grafico)
+    canvas_widget = canvas.get_tk_widget()
+    canvas_widget.pack()
 
-    boton_cerrar = Button(root, text="Volver", command=root.destroy, font=("Arial", 14), width=20, fg='black', bg='white')
-    boton_cerrar.pack(side='bottom', pady=20)
+    # Botón de cerrar
+    Button(ventana, text="Volver", command=ventana.destroy, font=("Arial", 14), width=20).pack(side='bottom', pady=20)
 
-    # Start the GUI loop
-    root.mainloop()
-
+    # Actualizar la GUI inicialmente
+    actualizar_gui(label_iteraciones, label_longitud_inicial, figura, canvas, label_longitud)
+    ventana.mainloop()
 
 # #===============================================================================================================
 # #===============================================================================================================
 
 # GUI CONJUNTO DE MANDELBROT
 
-#Función principal del programa, se definen los parámetros "generar conjunto", la función que genera el conjunto de Mandelbrot
+# Función principal del programa, se definen los parámetros "generar conjunto", la función que genera el conjunto de Mandelbrot
  
 def crear_gui_mandelbrot(generar_conjunto_func, contar_puntos_dentro_func, plano_inicial, resolucion_inicial, iteraciones_iniciales):   
     # Variables locales sincronizadas con main.py
-    x_min, x_max, y_min, y_max = plano_inicial  #Conjunto de valores iniciales para el rango del plano
-    resolucion = resolucion_inicial  #La resolución inicial para el rango del plano 
+    x_min, x_max, y_min, y_max = plano_inicial  # Conjunto de valores iniciales para el rango del plano
+    resolucion = resolucion_inicial  # La resolución inicial para el rango del plano 
     max_iteraciones = iteraciones_iniciales  
     color_mandelbrot = 'inferno'
 
@@ -336,12 +334,12 @@ def crear_gui_mandelbrot(generar_conjunto_func, contar_puntos_dentro_func, plano
     frame_rango.pack(pady=10)
 
     label_x_min = Label(frame_rango, text="X min:", font=("Arial", 12), bg='#2e2e2e', fg='white')
-    label_x_min.grid(row=0, column=0)   #Coloca los widgets en una cuadricula, lo coloca en la fila(row) 0 columna 0 de la cuadricula dentro de frame_rango
-    entry_x_min = Entry(frame_rango, font=("Arial", 12))  #Se crea un campo de entrada donde el usuario puede escribir en ella
-    entry_x_min.insert(0, f"{x_min}")  #Se establece un valor predeterminado en el campo de entrada "x min"
-    entry_x_min.grid(row=0, column=1)  #Posicionamiento del campo de entrada dentro de frame_rango, justo al lado de la etiqueta "x_min"
+    label_x_min.grid(row=0, column=0)   # Coloca los widgets en una cuadricula, lo coloca en la fila(row) 0 columna 0 de la cuadricula dentro de frame_rango
+    entry_x_min = Entry(frame_rango, font=("Arial", 12))  # Se crea un campo de entrada donde el usuario puede escribir en ella
+    entry_x_min.insert(0, f"{x_min}")  # Se establece un valor predeterminado en el campo de entrada "x min"
+    entry_x_min.grid(row=0, column=1)  # Posicionamiento del campo de entrada dentro de frame_rango, justo al lado de la etiqueta "x_min"
 
-    label_x_max = Label(frame_rango, text="X max:", font=("Arial", 12), bg='#2e2e2e', fg='white')  #Se hace lo mismo con la etiqueta de x_max
+    label_x_max = Label(frame_rango, text="X max:", font=("Arial", 12), bg='#2e2e2e', fg='white')  # Se hace lo mismo con la etiqueta de x_max
     label_x_max.grid(row=1, column=0)
     entry_x_max = Entry(frame_rango, font=("Arial", 12))
     entry_x_max.insert(0, f"{x_max}")
@@ -449,11 +447,12 @@ def abrir_mandelbrot(generar_conjunto_func, contar_puntos_dentro_func, plano_ini
     # Abre una ventana para visualizar el Conjunto de Mandelbrot
     crear_gui_mandelbrot(generar_conjunto_func, contar_puntos_dentro_func, plano_inicial, resolucion_inicial, iteraciones_iniciales)
 
-def abrir_koch(generate_koch, calculate_area, calculate_perimeter):
+def abrir_koch(generar_segmentos_koch, calcular_longitud_koch, iteraciones_koch, longitud_inicial, color_koch, extremo1, extremo2):
     # Abre una ventana para visualizar el Copo de Nieve de Koch
-    create_gui_Koch(generate_koch, calculate_area, calculate_perimeter)
+    gui_copo_koch(generar_segmentos_koch, calcular_longitud_koch, iteraciones_koch, longitud_inicial, color_koch, extremo1, extremo2)
 
-def pantalla_principal(generar_puntos_sierpinski, calcular_area_sierpinski, N, l, color, A, B, C, generar_conjunto_mandelbrot, contar_puntos_dentro, plano_inicial, resolucion_inicial, iteraciones_iniciales, generate_koch, calculate_area, calculate_perimeter):
+
+def pantalla_principal(generar_puntos_sierpinski, calcular_area_sierpinski, N, l, color, A, B, C, generar_conjunto_mandelbrot, contar_puntos_dentro, plano_inicial, resolucion_inicial, iteraciones_iniciales,  generar_segmentos_koch, calcular_longitud_koch, iteraciones_koch, longitud_inicial, color_koch, extremo1, extremo2 ):
     # Crear la ventana principal
     ventana_principal = Tk()  # Inicializa la ventana principal
     ventana_principal.title("Pantalla Principal")  # Título de la ventana
@@ -487,7 +486,7 @@ def pantalla_principal(generar_puntos_sierpinski, calcular_area_sierpinski, N, l
     boton_info = Button(ventana_principal, text="Conjunto de Mandelbrot", command=lambda: abrir_mandelbrot(generar_conjunto_mandelbrot, contar_puntos_dentro, plano_inicial, resolucion_inicial, iteraciones_iniciales), font=("Arial", 14), width=20, fg='black', bg='white')
     boton_info.pack(pady=10)
 
-    boton_configuracion = Button(ventana_principal, text="Copo de nieve de Koch", command=lambda: abrir_koch(generate_koch, calculate_area, calculate_perimeter), font=("Arial", 14), width=20, fg='black', bg='white')
+    boton_configuracion = Button(ventana_principal, text="Copo de nieve de Koch", command=lambda: abrir_koch(generar_segmentos_koch, calcular_longitud_koch, iteraciones_koch, longitud_inicial, color_koch, extremo1, extremo2), font=("Arial", 14), width=20, fg='black', bg='white')
     boton_configuracion.pack(pady=10)
 
     # Etiquetas de crédito
@@ -503,13 +502,6 @@ def pantalla_principal(generar_puntos_sierpinski, calcular_area_sierpinski, N, l
 
     # Ejecutar la ventana principal
     ventana_principal.mainloop()
-
-    
-
-# ======================================================
-# ======================================================
-# ======================================================
-# ======================================================
 
 
 
