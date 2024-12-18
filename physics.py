@@ -38,80 +38,53 @@ def calcular_area_sierpinski(l, N):
 
 #======================================================================================
 #======================================================================================
-#======================================================================================
 
 #COPO DE NIEVE DE KOCH
 
-import numpy as np
-
-def generate_koch_snowflake(order, scale=1):
-    """
-    Generate points for the Koch snowflake.
-    """
-    def koch_recursive(p1, p2, depth):
-        if depth == 0:
-            return [p1, p2]
-        # Divide the segment into three parts
-        delta = (p2 - p1) / 3
-        p3 = p1 + delta
-        p5 = p2 - delta
-
-        # Calculate the peak point of the triangle
-        angle = np.pi / 3  # 60 degrees
-        rotation_matrix = np.array([
-            [np.cos(angle), -np.sin(angle)],
-            [np.sin(angle), np.cos(angle)]
-        ])
-        peak = p3 + np.dot(rotation_matrix, delta)
-
-        # Recursively process each segment
-        return (
-            koch_recursive(p1, p3, depth - 1)[:-1] +
-            koch_recursive(p3, peak, depth - 1)[:-1] +
-            koch_recursive(peak, p5, depth - 1)[:-1] +
-            koch_recursive(p5, p2, depth - 1)
-        )
-
-    # Define the initial triangle
-    p1 = np.array([0, 0])
-    p2 = np.array([scale, 0])
-    p3 = np.array([scale / 2, scale * np.sqrt(3) / 2])
-    triangle = [p1, p2, p3, p1]
-
-    # Generate Koch snowflake by applying the recursive function to each side
-    snowflake_points = []
-    for i in range(len(triangle) - 1):
-        snowflake_points += koch_recursive(triangle[i], triangle[i + 1], order)[:-1]
-    snowflake_points.append(triangle[0])  # Close the snowflake
-
-    return np.array(snowflake_points)
-
-def calculate_perimeter_koch(snowflake_points):
-    """
-    Calculate the perimeter of the Koch snowflake.
-    """
-    perimeter = 0
-    for i in range(len(snowflake_points) - 1):
-        perimeter += np.linalg.norm(snowflake_points[i + 1] - snowflake_points[i])
-    return perimeter
-
-def calculate_area_koch(order, scale=1):
-    """
-    Calculate the area of the Koch snowflake.
-    """
-    base_area = (np.sqrt(3) / 4) * scale ** 2
-
-    # Area added at each iteration
-    added_area = 0
-    for i in range(1, order + 1):
-        num_new_triangles = 3 * (4 ** (i - 1))
-        side_length = scale / (3 ** i)
-        triangle_area = (np.sqrt(3) / 4) * side_length ** 2
-        added_area += num_new_triangles * triangle_area
-
-    return base_area + added_area
+from numpy import array
 
 #======================================================================================
+
+# Función para la generación de los segmentos del fractal de Koch
+def generar_segmentos_koch(extremo1, extremo2, iteraciones_koch):  
+    # extremo1 y extremo2 son los extremos iniciales del segmento
+    # iteraciones_koch es el número de iteraciones
+    
+    segmentos = []  # Lista para almacenar los segmentos resultantes
+
+    def koch_recursivo(punto1, punto2, nivel):  
+        if nivel == 0:
+            segmentos.append((list(punto1), list(punto2)))  # Añade el segmento final a la lista
+        else:
+            # División del segmento en 3 partes
+            punto_m1 = punto1 + (punto2 - punto1) / 3
+            punto_m2 = punto1 + 2 * (punto2 - punto1) / 3
+            punto_pico = rotar_60_grados(punto_m1, punto_m2)
+
+            # Llamadas recursivas
+            koch_recursivo(punto1, punto_m1, nivel - 1)
+            koch_recursivo(punto_m1, punto_pico, nivel - 1)
+            koch_recursivo(punto_pico, punto_m2, nivel - 1)
+            koch_recursivo(punto_m2, punto2, nivel - 1)
+
+    def rotar_60_grados(origen, destino):
+        # Función auxiliar para rotar un punto 60 grados
+        x, y = destino - origen
+        nuevo_x = x * 0.5 - y * (3**0.5) / 2
+        nuevo_y = x * (3**0.5) / 2 + y * 0.5
+        return array([nuevo_x, nuevo_y]) + origen
+
+    koch_recursivo(array(extremo1), array(extremo2), iteraciones_koch)
+    return segmentos
+
+#======================================================================================
+
+# Función para calcular la longitud del fractal del Copo de Nieve de Koch
+def calcular_longitud_koch(longitud_inicial, iteraciones_koch):  
+    # longitud_inicial: longitud del segmento inicial
+    # iteraciones_koch: número de iteraciones
+    return longitud_inicial * (4 / 3) ** iteraciones_koch
+
 #======================================================================================
 #======================================================================================
 
@@ -147,9 +120,4 @@ def generar_conjunto_mandelbrot(plano, resolucion, max_iteraciones):
 def contar_puntos_dentro(mandelbrot_matrix, max_iteraciones):
     
     return sum(mandelbrot_matrix == max_iteraciones)
-
-
-##########################################################################################
-##########################################################################################
-##########################################################################################
 
