@@ -5,15 +5,17 @@ from matplotlib.figure import Figure
 # # ======================================================================================================================================================================
 # # ======================================================================================================================================================================
 
+# GUI SIERPINSKI
+
 # Función para crear la GUI para el triángulo de Sierpinski
 
-def gui_triangulo_sierpinski(f, g, N, l, color, A, B, C):   # ARGUMENTOS: función que cálcula los vértices, función que calcula el área en la n iteración, longitud de lado, color del triángulo, y vértices iniciales
+def gui_triangulo_sierpinski(f, g, N, l, color, A, B, C):    # ARGUMENTOS: función que cálcula los vértices, función que calcula el área en la n iteración, longitud de lado, color del triángulo, y vértices iniciales
   
-    def actualizar_triangulo(figura, canvas, label_a):    #  Actualiza el triángulo en el gráfico y muestra el área actual.
+    def actualizar_triangulo(figura, canvas, label_a):       #  Actualiza el triángulo en el gráfico y muestra el área actual.
                                                              # figura = donde se dibujará el lienzo; canvas = lienzo donde se mostrará la figura; label_a = eiqueta que muestra el área
         
         # Llamamos a la función generadora de puntos de Sierpinski
-        P = f(A, B, C, N)              # P = lista de vértices
+        P = f(A, B, C, N)           # P = lista de vértices
 
         # Calcular el área
         a = g(l, N)                                        # a = área en la n iteración
@@ -27,8 +29,8 @@ def gui_triangulo_sierpinski(f, g, N, l, color, A, B, C):   # ARGUMENTOS: funci�
         for triangulo in P:
             x = [triangulo[0][0], triangulo[1][0], triangulo[2][0], triangulo[0][0]]   # triángulo = cada triángulo generado en P
             y = [triangulo[0][1], triangulo[1][1], triangulo[2][1], triangulo[0][1]]   # las coordenadas de cada uno de sus vértices
-            ax.fill(x, y, color=color, edgecolor='black', alpha=0.5)      # Dibuja el triángulo
-                                                                         # edge color = color del borde; beta = opacidad
+            ax.fill(x, y, color=color, edgecolor='black', alpha=0.5)     # Dibuja el triángulo
+                                                                         # edge color = color del borde; alpha = opacidad
         
         ax.set_aspect('equal')           # asegura que la relación entre los ejes x y y sea igual
         ax.axis('off')                   # desactiva los ejes y las etiquetas del gráfico
@@ -80,12 +82,12 @@ def gui_triangulo_sierpinski(f, g, N, l, color, A, B, C):   # ARGUMENTOS: funci�
         # El valor de azul (B) es complementario al rojo
         azul = 255 - rojo
         verde = 0  # No se cambia el verde
-        color = f"#{rojo:02x}{verde:02x}{azul:02x}"  # Crear el color en formato hexadecimal
+        color = f"#{rojo:02x}{verde:02x}{azul:02x}"      # Crear el color en formato hexadecimal
         actualizar_gui(label_N, label_l, figura, canvas, label_a)
 
     # Crear la ventana principal
-    ventana = Tk()  # Inicializa una ventana principal de la aplicación.
-    ventana.title("Triángulo de Sierpinski")  # Asigna un título a la ventana.
+    ventana = Tk()                                       # Inicializa una ventana principal de la aplicación.
+    ventana.title("Triángulo de Sierpinski")             # Asigna un título a la ventana.
 
     # Ventana a pantalla completa
     ventana.attributes('-fullscreen', True)
@@ -134,10 +136,10 @@ def gui_triangulo_sierpinski(f, g, N, l, color, A, B, C):   # ARGUMENTOS: funci�
     frame_grafico.pack()
 
     # Crear el gráfico con Matplotlib
-    figura = Figure(figsize=(5, 5), dpi=100)  # Crea una figura Matplotlib con definido tamaño y resolución 
+    figura = Figure(figsize=(5, 5), dpi=100)                  # Crea una figura Matplotlib con definido tamaño y resolución 
     canvas = FigureCanvasTkAgg(figura, master=frame_grafico)  # Vincula la figura con Tkinter para ser mostrada en la GUI
-    canvas_widget = canvas.get_tk_widget()  # Convierte la figura en un widget compatible con Tkinter
-    canvas_widget.pack()  # Empaqueta el widget para mostrar el gráfico
+    canvas_widget = canvas.get_tk_widget()                    # Convierte la figura en un widget compatible con Tkinter
+    canvas_widget.pack()                          # Empaqueta el widget para mostrar el gráfico
 
     # Barra deslizante para cambiar el color del triángulo (de azul a rojo)
     frame_color = Frame(ventana, bg='#2e2e2e')
@@ -172,7 +174,7 @@ def gui_copo_koch(generar_segmentos_koch, calcular_longitud_koch, iteraciones_ko
 
     def actualizar_copo(figura, canvas, label_longitud):
         # Genera y dibuja el copo de Koch
-        segmentos = generar_segmentos_koch(extremo1, extremo2, iteraciones_koch)  # Genera los segmentos del fractal
+        segmentos = generar_segmentos_koch(extremo1, extremo2, iteraciones_koch)     # Genera los segmentos del fractal
         longitud_total = calcular_longitud_koch(longitud_inicial, iteraciones_koch)  # Calcula la longitud total
         label_longitud.config(text=f"Longitud Total: {longitud_total:.5f}")
 
@@ -256,7 +258,7 @@ def gui_copo_koch(generar_segmentos_koch, calcular_longitud_koch, iteraciones_ko
 def crear_gui_mandelbrot(generar_conjunto_func, contar_puntos_dentro_func, plano_inicial, resolucion_inicial, iteraciones_iniciales):   
     # Variables locales sincronizadas con main.py
     x_min, x_max, y_min, y_max = plano_inicial  # Conjunto de valores iniciales para el rango del plano
-    resolucion = resolucion_inicial  # La resolución inicial para el rango del plano 
+    resolucion = resolucion_inicial             # La resolución inicial para el rango del plano 
     max_iteraciones = iteraciones_iniciales  
     color_mandelbrot = 'inferno'
 
@@ -273,28 +275,28 @@ def crear_gui_mandelbrot(generar_conjunto_func, contar_puntos_dentro_func, plano
 
         # Dibujar el conjunto de Mandelbrot con el color seleccionado
         ax = figura.add_subplot(111)
-        ax.imshow(mandelbrot_matrix, cmap=color_mandelbrot, extent=(x_min, x_max, y_min, y_max))  #Dibujar la nueva imagen del conjunto, con el color seleccionado y el rango definido
-        ax.set_title(f'Conjunto de Mandelbrot (Iteraciones: {max_iteraciones})')  #Función para incluir el número de iteraciones actuales en el título del gráfico
-        ax.set_aspect('equal')  #Configura la relación de aspecto del gráfico, asegura que el conjunto se vea correctamente sin distorsión
-        ax.axis('off') #Esta línea oculta los ejes del gráfico, mostrando solo la imagen del conjunto de Mandelbrot 
-        canvas.draw()  #Actualizar la visualización en la interfaz gráfica
+        ax.imshow(mandelbrot_matrix, cmap=color_mandelbrot, extent=(x_min, x_max, y_min, y_max))  # Dibujar la nueva imagen del conjunto, con el color seleccionado y el rango definido
+        ax.set_title(f'Conjunto de Mandelbrot (Iteraciones: {max_iteraciones})')                  # Función para incluir el número de iteraciones actuales en el título del gráfico
+        ax.set_aspect('equal')                                                                    # Configura la relación de aspecto del gráfico, asegura que el conjunto se vea correctamente sin distorsión
+        ax.axis('off')                            # Esta línea oculta los ejes del gráfico, mostrando solo la imagen del conjunto de Mandelbrot 
+        canvas.draw()                             # Actualizar la visualización en la interfaz gráfica
 
-    def actualizar_gui(label_iteraciones, figura, canvas, label_area):  #Función que actualiza los elementos de la interfaz, como etiquetas y el gráfico
+    def actualizar_gui(label_iteraciones, figura, canvas, label_area):       # Función que actualiza los elementos de la interfaz, como etiquetas y el gráfico
         label_iteraciones.config(text=f"Iteraciones: {max_iteraciones}")
-        actualizar_mandelbrot(figura, canvas, label_area)   #Se muestra el gráfico con los valores actuales
+        actualizar_mandelbrot(figura, canvas, label_area)                    # Se muestra el gráfico con los valores actuales
 
-    def sumar_iteracion(label_iteraciones, figura, canvas, label_area):  #Función que aumenta el número de iteraciones y actualiza la gui con el nuevo valor de iteraciones
-        nonlocal max_iteraciones  #Sirve para decirle a python que max_ite no es una variable local
+    def sumar_iteracion(label_iteraciones, figura, canvas, label_area):      # Función que aumenta el número de iteraciones y actualiza la gui con el nuevo valor de iteraciones
+        nonlocal max_iteraciones                                             # Sirve para decirle a python que max_ite no es una variable local
         max_iteraciones += 1
-        actualizar_gui(label_iteraciones, figura, canvas, label_area)   #Se actualiza la gui con el nuevo valor de iteraciones
+        actualizar_gui(label_iteraciones, figura, canvas, label_area)     # Se actualiza la gui con el nuevo valor de iteraciones
 
-    def restar_iteracion(label_iteraciones, figura, canvas, label_area): #Disminuye el número de iteraciones pero no deja que sea negativo
+    def restar_iteracion(label_iteraciones, figura, canvas, label_area):  # Disminuye el número de iteraciones pero no deja que sea negativo
         nonlocal max_iteraciones
         if max_iteraciones > 0:
             max_iteraciones -= 1
-        actualizar_gui(label_iteraciones, figura, canvas, label_area)  #Se actualiza la gui con el nuevo valor de iteraciones
+        actualizar_gui(label_iteraciones, figura, canvas, label_area)     # Se actualiza la gui con el nuevo valor de iteraciones
 
-    def cambiar_rango(entry_x_min, entry_x_max, entry_y_min, entry_y_max, label_area, figura, canvas):   #Obtiene nuevos valores de rango de las entradas de texto y si los valores de entrada no son válidos muestra un mensaje de error
+    def cambiar_rango(entry_x_min, entry_x_max, entry_y_min, entry_y_max, label_area, figura, canvas):   # Obtiene nuevos valores de rango de las entradas de texto y si los valores de entrada no son válidos muestra un mensaje de error
         nonlocal x_min, x_max, y_min, y_max
         try:
             x_min = float(entry_x_min.get())
@@ -334,10 +336,10 @@ def crear_gui_mandelbrot(generar_conjunto_func, contar_puntos_dentro_func, plano
     frame_rango.pack(pady=10)
 
     label_x_min = Label(frame_rango, text="X min:", font=("Arial", 12), bg='#2e2e2e', fg='white')
-    label_x_min.grid(row=0, column=0)   # Coloca los widgets en una cuadricula, lo coloca en la fila(row) 0 columna 0 de la cuadricula dentro de frame_rango
-    entry_x_min = Entry(frame_rango, font=("Arial", 12))  # Se crea un campo de entrada donde el usuario puede escribir en ella
-    entry_x_min.insert(0, f"{x_min}")  # Se establece un valor predeterminado en el campo de entrada "x min"
-    entry_x_min.grid(row=0, column=1)  # Posicionamiento del campo de entrada dentro de frame_rango, justo al lado de la etiqueta "x_min"
+    label_x_min.grid(row=0, column=0)                        # Coloca los widgets en una cuadricula, lo coloca en la fila(row) 0 columna 0 de la cuadricula dentro de frame_rango
+    entry_x_min = Entry(frame_rango, font=("Arial", 12))     # Se crea un campo de entrada donde el usuario puede escribir en ella
+    entry_x_min.insert(0, f"{x_min}")                        # Se establece un valor predeterminado en el campo de entrada "x min"
+    entry_x_min.grid(row=0, column=1)                        # Posicionamiento del campo de entrada dentro de frame_rango, justo al lado de la etiqueta "x_min"
 
     label_x_max = Label(frame_rango, text="X max:", font=("Arial", 12), bg='#2e2e2e', fg='white')  # Se hace lo mismo con la etiqueta de x_max
     label_x_max.grid(row=1, column=0)
@@ -386,6 +388,8 @@ def crear_gui_mandelbrot(generar_conjunto_func, contar_puntos_dentro_func, plano
 
 # # ======================================================================================================================================================================
 # # ======================================================================================================================================================================
+
+# PANTALLA PRINCIPAL
 
 def gui_información_relativa_fractales():
     # Crear la ventana principal
@@ -502,6 +506,8 @@ def pantalla_principal(generar_puntos_sierpinski, calcular_area_sierpinski, N, l
 
     # Ejecutar la ventana principal
     ventana_principal.mainloop()
+
+
 
 
 
