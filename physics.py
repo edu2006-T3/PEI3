@@ -93,36 +93,36 @@ def calcular_longitud_koch(longitud_inicial, iteraciones_koch):
 # CONJUNTO DE MANDELBROT
 #======================================================================================
 
-# Función para generar una matriz que representa el conjunto de Mandelbrot
+# Función que genera matriz de puntos del plano complejo
 def generar_conjunto_mandelbrot(plano, resolucion, max_iteraciones):
    
-    x_min, x_max, y_min, y_max = plano         # Especifica los límites del plano complejo como una tupla
-    ancho, alto = resolucion                   # Número de puntos en cada eje como una tupla
+    x_min, x_max, y_min, y_max = plano # Límites plano complejo
+    ancho, alto = resolucion # Número de puntos en cada eje 
+    # max_iteraciones: nº máximo de iteraciones para determinar si un punto escapa o pertenece al conjunto
 
-    # Creamos las grillas para las coordenadas reales e imaginarias
-    #Linspace genera un arreglo de valores equidistantes entre dos extremos
+    # Definición plano complejo
     x = linspace(x_min, x_max, ancho)
     y = linspace(y_min, y_max, alto)
     X, Y = meshgrid(x, y)  # Matrices de coordenadas
-    # Meshgrid convierte dos arreglos unidimensionales en matrices bidimensionales que forman una grilla de coordenadas cartesianas.
+    # Meshgrid combina los vectores x e y para formar matrices bidimensionales que representan una grilla de coordenadas cartesianas
+
     # Inicializamos las matrices
-    c = X + 1j * Y                                     # Matriz de números complejos combinando X y Y con el operador +1j*
-    z = zeros_like(c, dtype=complex)                   # Matriz del tamaño de c, llena de ceros(números complejos), que representa las iteraciones de cada punto.
-    mandelbrot_matrix = zeros(c.shape, dtype=int)      # Matriz para almacenar iteraciones
+    c = X + 1j * Y  # Cada punto de la grilla es representado como un número complejo c = X + iY
+    z = zeros_like(c, dtype=complex)  # Matriz inicializada en ceros que guarda el valor actual de la iteración z_n
+    mandelbrot_matrix = zeros(c.shape, dtype=int)  # Matriz que almacena el número de iteraciones hasta que un punto escape o 0 si no escapa
 
-    # Vectorizamos el cálculo del escape
+    # Cálculo iterativo del conjunto de Mandelbrot
+    # Se realiza un bucle hasta alcanzar el número máximo de iteraciones
     for x_i in range(max_iteraciones):
-        # mask: matriz booleana(True o False) que indica qué elementos cumplen la condición
-        mask = abs(z) <= 2                   # Identificamos puntos que aún no escapan
-        z[mask] = z[mask] ** 2 + c[mask]     # Aplicamos la fórmula solo a puntos dentro del límite
-        mandelbrot_matrix[mask] += 1         # Incrementamos las iteraciones
+        mask = abs(z) <= 2  # Identifica los puntos que siguen dentro del límite para iterar
+        z[mask] = z[mask] ** 2 + c[mask]  # Aplicamos la fórmula solo a puntos dentro del límite
+        mandelbrot_matrix[mask] += 1  # Incrementamos las iteraciones
 
-    return mandelbrot_matrix
+    return mandelbrot_matrix # Contiene el nº de iteraciones para cada punto de la grilla.
 
 #======================================================================================
 
 # Función para contar los puntos dentro del conjunto de Mandelbrot
-
 def contar_puntos_dentro(mandelbrot_matrix, max_iteraciones):
     
     return sum(mandelbrot_matrix == max_iteraciones)
