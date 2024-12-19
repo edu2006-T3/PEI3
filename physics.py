@@ -52,16 +52,16 @@ def generar_segmentos_koch(extremo1, extremo2, iteraciones_koch):
     # extremo1 y extremo2 son los extremos iniciales del segmento
     # iteraciones_koch es el número de iteraciones
     
-    segmentos = []  # Lista para almacenar los segmentos resultantes
+    segmentos = []  # Lista para almacenar los segmentos generados
 
     def koch_recursivo(punto1, punto2, nivel):  
-        if nivel == 0:
+        if nivel == 0:   #Añade el segmento actual a la lista como un par de puntos
             segmentos.append((list(punto1), list(punto2)))  # Añade el segmento final a la lista
         else:
             # División del segmento en 3 partes
-            punto_m1 = punto1 + (punto2 - punto1) / 3
-            punto_m2 = punto1 + 2 * (punto2 - punto1) / 3
-            punto_pico = rotar_60_grados(punto_m1, punto_m2)
+            punto_m1 = punto1 + (punto2 - punto1) / 3  #punto a 1/3 del segmento
+            punto_m2 = punto1 + 2 * (punto2 - punto1) / 3   #punto a 2/3 del segmento
+            punto_pico = rotar_60_grados(punto_m1, punto_m2) #calculado rotando el segmento central 60º , forma un triángulo eq. invertido
 
             # Llamadas recursivas
             koch_recursivo(punto1, punto_m1, nivel - 1)
@@ -70,14 +70,14 @@ def generar_segmentos_koch(extremo1, extremo2, iteraciones_koch):
             koch_recursivo(punto_m2, punto2, nivel - 1)
 
     def rotar_60_grados(origen, destino):
-        # Función auxiliar para rotar un punto 60 grados
+        # Función auxiliar para rotar un punto 60 grados usando trigonometría
         x, y = destino - origen
-        nuevo_x = x * 0.5 - y * (3**0.5) / 2
-        nuevo_y = x * (3**0.5) / 2 + y * 0.5
-        return array([nuevo_x, nuevo_y]) + origen
+        nuevo_x = x * 0.5 - y * (3**0.5) / 2 # x*cos60º - y *sin(60º)
+        nuevo_y = x * (3**0.5) / 2 + y * 0.5  #x*sin60º + y*cos (60º)
+        return array([nuevo_x, nuevo_y]) + origen #Guarda la nueva posición en un vector
 
     koch_recursivo(array(extremo1), array(extremo2), iteraciones_koch)
-    return segmentos
+    return segmentos  #Devuelve la lista segmentos , con los generados en cada nivel de iteración
 
 #======================================================================================
 
@@ -89,6 +89,7 @@ def calcular_longitud_koch(longitud_inicial, iteraciones_koch):
 
 #======================================================================================
 #======================================================================================
+
 
 # CONJUNTO DE MANDELBROT
 #======================================================================================
