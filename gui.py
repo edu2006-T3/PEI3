@@ -487,11 +487,11 @@ def pantalla_principal(generar_puntos_sierpinski, calcular_area_sierpinski, N, l
     boton_sierpinski = Button(ventana_principal, text="Triángulo de Sierpinski", command=lambda: abrir_sierpinski(generar_puntos_sierpinski, calcular_area_sierpinski, N, l, color, A, B, C), font=("Arial", 14), width=20, fg='black', bg='white')
     boton_sierpinski.pack(pady=10)
 
-    boton_info = Button(ventana_principal, text="Conjunto de Mandelbrot", command=lambda: abrir_mandelbrot(generar_conjunto_mandelbrot, contar_puntos_dentro, plano_inicial, resolucion_inicial, iteraciones_iniciales), font=("Arial", 14), width=20, fg='black', bg='white')
-    boton_info.pack(pady=10)
+    boton_mandelbrot = Button(ventana_principal, text="Conjunto de Mandelbrot", command=lambda: abrir_mandelbrot(generar_conjunto_mandelbrot, contar_puntos_dentro, plano_inicial, resolucion_inicial, iteraciones_iniciales), font=("Arial", 14), width=20, fg='black', bg='white')
+    boton_mandelbrot.pack(pady=10)
 
-    boton_configuracion = Button(ventana_principal, text="Copo de nieve de Koch", command=lambda: abrir_koch(generar_segmentos_koch, calcular_longitud_koch, iteraciones_koch, longitud_inicial, color_koch, extremo1, extremo2), font=("Arial", 14), width=20, fg='black', bg='white')
-    boton_configuracion.pack(pady=10)
+    boton_koch = Button(ventana_principal, text="Copo de nieve de Koch", command=lambda: abrir_koch(generar_segmentos_koch, calcular_longitud_koch, iteraciones_koch, longitud_inicial, color_koch, extremo1, extremo2), font=("Arial", 14), width=20, fg='black', bg='white')
+    boton_koch.pack(pady=10)
 
     # Etiquetas de crédito
     label_encima_cerrar_1 = Label(ventana_principal, text="Trabajo realizado por: Eduardo Gómez, Lidia Lázaro, Weiwei Yang, Sandra García", font=("Arial", 12), fg='white', bg='#2e2e2e')
