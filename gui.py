@@ -253,7 +253,7 @@ def gui_copo_koch(generar_segmentos_koch, calcular_longitud_koch, iteraciones_ko
 
 # GUI CONJUNTO DE MANDELBROT
 
-# Función principal del programa, se definen los parámetros "generar conjunto", la función que genera el conjunto de Mandelbrot
+#Función principal, se definen los parámetros generar el conjunto, contar los puntos dentro de este, el plano inicial, la resolución inicial y el máximo de iteraciones 
  
 def crear_gui_mandelbrot(generar_conjunto_func, contar_puntos_dentro_func, plano_inicial, resolucion_inicial, iteraciones_iniciales):   
     # Variables locales sincronizadas con main.py
